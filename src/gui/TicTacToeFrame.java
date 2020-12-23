@@ -8,6 +8,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.*;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -24,7 +25,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     Font FONT_ZORQUE;
 
     public TicTacToeFrame() {
-        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this);
+        setUndecorated(true);
+        setAlwaysOnTop(true);
+        setVisible(true);
+        setResizable(false);
+        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        setSize(width, height);
+
         initComponents();
         try {
             InputStream is = new BufferedInputStream(new FileInputStream("./src/resources/zorque.ttf"));
@@ -95,7 +103,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         LabelPassword.setText("Passowrd");
 
         TextFieldUsername.setBackground(new java.awt.Color(173, 173, 173));
-        TextFieldUsername.setForeground(new java.awt.Color(0, 0, 0));
         TextFieldUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 3));
         TextFieldUsername.setFocusCycleRoot(true);
         TextFieldUsername.setMinimumSize(new java.awt.Dimension(80, 50));
@@ -141,7 +148,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
 
         PasswordFieldPassword.setBackground(new java.awt.Color(173, 173, 173));
-        PasswordFieldPassword.setForeground(new java.awt.Color(0, 0, 0));
         PasswordFieldPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 3));
         PasswordFieldPassword.setMinimumSize(new java.awt.Dimension(80, 50));
         PasswordFieldPassword.setPreferredSize(new java.awt.Dimension(80, 50));
@@ -167,35 +173,36 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addContainerGap(339, Short.MAX_VALUE)
+                .addContainerGap(363, Short.MAX_VALUE)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelPassword)
-                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(LabelUsername)
-                        .addGroup(loginPanelLayout.createSequentialGroup()
-                            .addComponent(ButtonLogin)
-                            .addGap(18, 18, Short.MAX_VALUE)
-                            .addComponent(ButtonSignup))
-                        .addComponent(TextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(340, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ButtonExit)
-                .addGap(70, 70, 70))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                        .addComponent(ButtonExit)
+                        .addGap(50, 50, 50))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LabelPassword)
+                            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(LabelUsername)
+                                .addGroup(loginPanelLayout.createSequentialGroup()
+                                    .addComponent(ButtonLogin)
+                                    .addGap(18, 18, Short.MAX_VALUE)
+                                    .addComponent(ButtonSignup))
+                                .addComponent(TextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap(374, Short.MAX_VALUE))))
+            .addGroup(loginPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelLogo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addComponent(ButtonExit)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(LabelLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
                 .addComponent(LabelUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,7 +214,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonLogin)
                     .addComponent(ButtonSignup))
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         parentPanel.add(loginPanel, "card1");
@@ -274,11 +281,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 877, Short.MAX_VALUE)
+            .addGap(0, 889, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
+            .addGap(0, 591, Short.MAX_VALUE)
         );
 
         parentPanel.add(jPanel1, "card4");
@@ -293,8 +300,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(parentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
