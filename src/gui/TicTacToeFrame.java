@@ -5,6 +5,13 @@
  */
 package gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.*;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 /**
  *
  * @author SOLUTIONS
@@ -14,9 +21,35 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     /**
      * Creates new form TicTacToeFrame
      */
+    Font FONT_ZORQUE;
+
     public TicTacToeFrame() {
-        setUndecorated(true);
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this);
         initComponents();
+        try {
+            InputStream is = new BufferedInputStream(new FileInputStream("./src/resources/zorque.ttf"));
+            FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
+            LabelLogo.setFont(FONT_ZORQUE.deriveFont(144f));
+            LabelUsername.setFont(FONT_ZORQUE.deriveFont(60f));
+            LabelPassword.setFont(FONT_ZORQUE.deriveFont(60f));
+            ButtonLogin.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonSignup.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonExit.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonExit.setOpaque(false);
+            ButtonExit.setContentAreaFilled(false);
+            ButtonExit.setBorderPainted(false);
+            ButtonLogin.setOpaque(false);
+            ButtonLogin.setContentAreaFilled(false);
+            ButtonLogin.setBorderPainted(false);
+            ButtonSignup.setOpaque(false);
+            ButtonSignup.setContentAreaFilled(false);
+            ButtonSignup.setBorderPainted(false);
+            TextFieldUsername.setFont(FONT_ZORQUE.deriveFont(32f));
+            PasswordFieldPassword.setFont(FONT_ZORQUE.deriveFont(32f));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -30,14 +63,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel = new javax.swing.JPanel();
         loginPanel = new javax.swing.JPanel();
-        titilTicTacToeLabel = new javax.swing.JLabel();
-        userNameLabel = new javax.swing.JLabel();
-        passowerdLabel = new javax.swing.JLabel();
-        usernameTextField = new javax.swing.JTextField();
-        passowrdTextField = new javax.swing.JTextField();
-        loginButton = new javax.swing.JButton();
-        createNewUserButton = new javax.swing.JButton();
-        xButton = new javax.swing.JButton();
+        LabelLogo = new javax.swing.JLabel();
+        LabelUsername = new javax.swing.JLabel();
+        LabelPassword = new javax.swing.JLabel();
+        TextFieldUsername = new javax.swing.JTextField();
+        ButtonLogin = new javax.swing.JButton();
+        ButtonSignup = new javax.swing.JButton();
+        PasswordFieldPassword = new javax.swing.JPasswordField();
+        ButtonExit = new javax.swing.JButton();
         maimMinuePanel = new javax.swing.JPanel();
         ticTckToeLabel = new javax.swing.JLabel();
         startGameButton = new javax.swing.JButton();
@@ -49,46 +82,83 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.setLayout(new java.awt.CardLayout());
 
-        loginPanel.setBackground(new java.awt.Color(255, 255, 153));
+        loginPanel.setBackground(new java.awt.Color(33, 33, 33));
 
-        titilTicTacToeLabel.setBackground(new java.awt.Color(255, 255, 255));
-        titilTicTacToeLabel.setFont(new java.awt.Font("Viner Hand ITC", 3, 48)); // NOI18N
-        titilTicTacToeLabel.setText("    Tic Tac Toe");
+        LabelLogo.setBackground(new java.awt.Color(255, 255, 255));
+        LabelLogo.setForeground(new java.awt.Color(158, 158, 158));
+        LabelLogo.setText("TicTacToe");
 
-        userNameLabel.setText("Username");
+        LabelUsername.setForeground(new java.awt.Color(158, 158, 158));
+        LabelUsername.setText("Username");
 
-        passowerdLabel.setText("Passowrd");
+        LabelPassword.setForeground(new java.awt.Color(158, 158, 158));
+        LabelPassword.setText("Passowrd");
 
-        usernameTextField.setFocusCycleRoot(true);
-        usernameTextField.addActionListener(new java.awt.event.ActionListener() {
+        TextFieldUsername.setBackground(new java.awt.Color(173, 173, 173));
+        TextFieldUsername.setForeground(new java.awt.Color(0, 0, 0));
+        TextFieldUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 3));
+        TextFieldUsername.setFocusCycleRoot(true);
+        TextFieldUsername.setMinimumSize(new java.awt.Dimension(80, 50));
+        TextFieldUsername.setNextFocusableComponent(PasswordFieldPassword);
+        TextFieldUsername.setPreferredSize(new java.awt.Dimension(80, 50));
+        TextFieldUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameTextFieldActionPerformed(evt);
+                TextFieldUsernameActionPerformed(evt);
             }
         });
 
-        passowrdTextField.setEditable(false);
-        passowrdTextField.setBackground(new java.awt.Color(255, 255, 255));
-
-        loginButton.setText("login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        ButtonLogin.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonLogin.setText("Login");
+        ButtonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonLoginMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonLoginMouseExited(evt);
+            }
+        });
+        ButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                ButtonLoginActionPerformed(evt);
             }
         });
 
-        createNewUserButton.setText("Create new user");
-        createNewUserButton.addActionListener(new java.awt.event.ActionListener() {
+        ButtonSignup.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonSignup.setText("Signup");
+        ButtonSignup.setToolTipText("Create a new account");
+        ButtonSignup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonSignupMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonSignupMouseExited(evt);
+            }
+        });
+        ButtonSignup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createNewUserButtonActionPerformed(evt);
+                ButtonSignupActionPerformed(evt);
             }
         });
 
-        xButton.setBackground(new java.awt.Color(255, 0, 0));
-        xButton.setForeground(new java.awt.Color(255, 255, 255));
-        xButton.setText("X");
-        xButton.addActionListener(new java.awt.event.ActionListener() {
+        PasswordFieldPassword.setBackground(new java.awt.Color(173, 173, 173));
+        PasswordFieldPassword.setForeground(new java.awt.Color(0, 0, 0));
+        PasswordFieldPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 3));
+        PasswordFieldPassword.setMinimumSize(new java.awt.Dimension(80, 50));
+        PasswordFieldPassword.setPreferredSize(new java.awt.Dimension(80, 50));
+
+        ButtonExit.setForeground(new java.awt.Color(183, 28, 28));
+        ButtonExit.setText("X");
+        ButtonExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonExitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonExitMouseExited(evt);
+            }
+        });
+        ButtonExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                xButtonActionPerformed(evt);
+                ButtonExitActionPerformed(evt);
             }
         });
 
@@ -96,58 +166,51 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addContainerGap(339, Short.MAX_VALUE)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LabelPassword)
+                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(LabelUsername)
+                        .addGroup(loginPanelLayout.createSequentialGroup()
+                            .addComponent(ButtonLogin)
+                            .addGap(18, 18, Short.MAX_VALUE)
+                            .addComponent(ButtonSignup))
+                        .addComponent(TextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(340, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, loginPanelLayout.createSequentialGroup()
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(loginPanelLayout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(passowerdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(176, 176, 176))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(passowrdTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(loginPanelLayout.createSequentialGroup()
-                                        .addComponent(loginButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(createNewUserButton))
-                                    .addComponent(usernameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(loginPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(titilTicTacToeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, loginPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(xButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonExit)
+                .addGap(70, 70, 70))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LabelLogo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(xButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButtonExit)
+                .addGap(5, 5, 5)
+                .addComponent(LabelLogo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                .addComponent(LabelUsername)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(titilTicTacToeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(userNameLabel)
+                .addComponent(LabelPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passowerdLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passowrdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(createNewUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                    .addComponent(ButtonLogin)
+                    .addComponent(ButtonSignup))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
-        parentPanel.add(loginPanel, "card2");
+        parentPanel.add(loginPanel, "card1");
 
         maimMinuePanel.setBackground(new java.awt.Color(255, 255, 102));
 
@@ -175,7 +238,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             maimMinuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, maimMinuePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ticTckToeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                .addComponent(ticTckToeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(maimMinuePanelLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
@@ -196,7 +259,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(maimMinuePanelLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(ticTckToeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
                 .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(recordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,17 +268,17 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGap(26, 26, 26))
         );
 
-        parentPanel.add(maimMinuePanel, "card3");
+        parentPanel.add(maimMinuePanel, "card2");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 877, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
 
         parentPanel.add(jPanel1, "card4");
@@ -234,31 +297,62 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameTextFieldActionPerformed
-
-    private void xButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xButtonActionPerformed
-        dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_xButtonActionPerformed
-
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_startGameButtonActionPerformed
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(maimMinuePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
-    }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void createNewUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewUserButtonActionPerformed
+    private void ButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSignupActionPerformed
         parentPanel.removeAll();
         parentPanel.add(maimMinuePanel);
         parentPanel.repaint();
         parentPanel.revalidate();         // TODO add your handling code here:
-    }//GEN-LAST:event_createNewUserButtonActionPerformed
+    }//GEN-LAST:event_ButtonSignupActionPerformed
+
+    private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
+        parentPanel.removeAll();
+        parentPanel.add(maimMinuePanel);
+        parentPanel.repaint();
+        parentPanel.revalidate();        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonLoginActionPerformed
+
+    private void TextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFieldUsernameActionPerformed
+
+    private void ButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonExitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_ButtonExitActionPerformed
+
+    private void ButtonExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExitMouseEntered
+        // TODO add your handling code here:
+        ButtonExit.setForeground(new Color(229, 57, 53));
+    }//GEN-LAST:event_ButtonExitMouseEntered
+
+    private void ButtonExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExitMouseExited
+        // TODO add your handling code here:
+        ButtonExit.setForeground(new Color(183, 28, 28));
+    }//GEN-LAST:event_ButtonExitMouseExited
+
+    private void ButtonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseEntered
+        // TODO add your handling code here:
+        ButtonLogin.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonLoginMouseEntered
+
+    private void ButtonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseExited
+        // TODO add your handling code here:
+        ButtonLogin.setForeground(new Color(158, 158, 158));
+    }//GEN-LAST:event_ButtonLoginMouseExited
+
+    private void ButtonSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseEntered
+        // TODO add your handling code here:
+        ButtonSignup.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonSignupMouseEntered
+
+    private void ButtonSignupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseExited
+        // TODO add your handling code here:
+        ButtonSignup.setForeground(new Color(158, 158, 158));
+    }//GEN-LAST:event_ButtonSignupMouseExited
 
     /**
      * @param args the command line arguments
@@ -296,21 +390,21 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton createNewUserButton;
+    private javax.swing.JButton ButtonExit;
+    private javax.swing.JButton ButtonLogin;
+    private javax.swing.JButton ButtonSignup;
+    private javax.swing.JLabel LabelLogo;
+    private javax.swing.JLabel LabelPassword;
+    private javax.swing.JLabel LabelUsername;
+    private javax.swing.JPasswordField PasswordFieldPassword;
+    private javax.swing.JTextField TextFieldUsername;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel maimMinuePanel;
     private javax.swing.JPanel parentPanel;
-    private javax.swing.JLabel passowerdLabel;
-    private javax.swing.JTextField passowrdTextField;
     private javax.swing.JButton quitButton;
     private javax.swing.JButton recordButton;
     private javax.swing.JButton startGameButton;
     private javax.swing.JLabel ticTckToeLabel;
-    private javax.swing.JLabel titilTicTacToeLabel;
-    private javax.swing.JLabel userNameLabel;
-    private javax.swing.JTextField usernameTextField;
-    private javax.swing.JButton xButton;
     // End of variables declaration//GEN-END:variables
 }
