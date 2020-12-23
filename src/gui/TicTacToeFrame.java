@@ -35,7 +35,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         initComponents();
         try {
-            InputStream is = new BufferedInputStream(new FileInputStream("./src/resources/zorque.ttf"));
+            InputStream is = new BufferedInputStream(getClass().getResourceAsStream("resources/zorque.ttf"));
             FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
             LabelLogo.setFont(FONT_ZORQUE.deriveFont(144f));
             LabelUsername.setFont(FONT_ZORQUE.deriveFont(60f));
@@ -54,6 +54,21 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonSignup.setBorderPainted(false);
             TextFieldUsername.setFont(FONT_ZORQUE.deriveFont(32f));
             PasswordFieldPassword.setFont(FONT_ZORQUE.deriveFont(32f));
+            TextFieldUsername.requestFocus();
+
+            LabelLogo2.setFont(FONT_ZORQUE.deriveFont(144f));
+            ButtonStartGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonRecords.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonQuit.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonStartGame.setOpaque(false);
+            ButtonStartGame.setContentAreaFilled(false);
+            ButtonStartGame.setBorderPainted(false);
+            ButtonRecords.setOpaque(false);
+            ButtonRecords.setContentAreaFilled(false);
+            ButtonRecords.setBorderPainted(false);
+            ButtonQuit.setOpaque(false);
+            ButtonQuit.setContentAreaFilled(false);
+            ButtonQuit.setBorderPainted(false);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,11 +94,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonSignup = new javax.swing.JButton();
         PasswordFieldPassword = new javax.swing.JPasswordField();
         ButtonExit = new javax.swing.JButton();
-        maimMinuePanel = new javax.swing.JPanel();
-        ticTckToeLabel = new javax.swing.JLabel();
-        startGameButton = new javax.swing.JButton();
-        recordButton = new javax.swing.JButton();
-        quitButton = new javax.swing.JButton();
+        MainMenuPanel = new javax.swing.JPanel();
+        LabelLogo2 = new javax.swing.JLabel();
+        ButtonStartGame = new javax.swing.JButton();
+        ButtonRecords = new javax.swing.JButton();
+        ButtonQuit = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,6 +106,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         parentPanel.setLayout(new java.awt.CardLayout());
 
         loginPanel.setBackground(new java.awt.Color(33, 33, 33));
+        loginPanel.setFocusable(false);
+        loginPanel.setNextFocusableComponent(TextFieldUsername);
 
         LabelLogo.setBackground(new java.awt.Color(255, 255, 255));
         LabelLogo.setForeground(new java.awt.Color(158, 158, 158));
@@ -102,9 +119,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         LabelPassword.setForeground(new java.awt.Color(158, 158, 158));
         LabelPassword.setText("Passowrd");
 
-        TextFieldUsername.setBackground(new java.awt.Color(173, 173, 173));
-        TextFieldUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 3));
-        TextFieldUsername.setFocusCycleRoot(true);
+        TextFieldUsername.setBackground(new java.awt.Color(158, 158, 158));
+        TextFieldUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         TextFieldUsername.setMinimumSize(new java.awt.Dimension(80, 50));
         TextFieldUsername.setNextFocusableComponent(PasswordFieldPassword);
         TextFieldUsername.setPreferredSize(new java.awt.Dimension(80, 50));
@@ -147,8 +163,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
         });
 
-        PasswordFieldPassword.setBackground(new java.awt.Color(173, 173, 173));
-        PasswordFieldPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 3));
+        PasswordFieldPassword.setBackground(new java.awt.Color(158, 158, 158));
+        PasswordFieldPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        PasswordFieldPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         PasswordFieldPassword.setMinimumSize(new java.awt.Dimension(80, 50));
         PasswordFieldPassword.setPreferredSize(new java.awt.Dimension(80, 50));
 
@@ -179,16 +196,15 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                         .addComponent(ButtonExit)
                         .addGap(50, 50, 50))
                     .addGroup(loginPanelLayout.createSequentialGroup()
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LabelPassword)
-                            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(LabelUsername)
-                                .addGroup(loginPanelLayout.createSequentialGroup()
-                                    .addComponent(ButtonLogin)
-                                    .addGap(18, 18, Short.MAX_VALUE)
-                                    .addComponent(ButtonSignup))
-                                .addComponent(TextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(loginPanelLayout.createSequentialGroup()
+                                .addComponent(ButtonLogin)
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addComponent(ButtonSignup))
+                            .addComponent(TextFieldUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(LabelUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(LabelPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(374, Short.MAX_VALUE))))
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -200,9 +216,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(ButtonExit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(0, 0, 0)
                 .addComponent(LabelLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addComponent(LabelUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,78 +230,96 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonLogin)
                     .addComponent(ButtonSignup))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
 
         parentPanel.add(loginPanel, "card1");
 
-        maimMinuePanel.setBackground(new java.awt.Color(255, 255, 102));
+        MainMenuPanel.setBackground(new java.awt.Color(33, 33, 33));
 
-        ticTckToeLabel.setBackground(new java.awt.Color(255, 255, 153));
-        ticTckToeLabel.setFont(new java.awt.Font("Viner Hand ITC", 3, 48)); // NOI18N
-        ticTckToeLabel.setText("   Tic Tac Toe");
+        LabelLogo2.setBackground(new java.awt.Color(255, 255, 153));
+        LabelLogo2.setForeground(new java.awt.Color(158, 158, 158));
+        LabelLogo2.setText("TicTacToe");
 
-        startGameButton.setBackground(new java.awt.Color(0, 153, 0));
-        startGameButton.setText("Start Game");
-        startGameButton.addActionListener(new java.awt.event.ActionListener() {
+        ButtonStartGame.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonStartGame.setText("Start Game");
+        ButtonStartGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonStartGameMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonStartGameMouseExited(evt);
+            }
+        });
+        ButtonStartGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startGameButtonActionPerformed(evt);
+                ButtonStartGameActionPerformed(evt);
             }
         });
 
-        recordButton.setBackground(new java.awt.Color(0, 0, 255));
-        recordButton.setText("Records");
+        ButtonRecords.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonRecords.setText("Records");
+        ButtonRecords.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonRecordsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonRecordsMouseExited(evt);
+            }
+        });
 
-        quitButton.setBackground(new java.awt.Color(255, 0, 0));
-        quitButton.setText("Quit");
+        ButtonQuit.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonQuit.setText("Quit");
+        ButtonQuit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonQuitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonQuitMouseExited(evt);
+            }
+        });
 
-        javax.swing.GroupLayout maimMinuePanelLayout = new javax.swing.GroupLayout(maimMinuePanel);
-        maimMinuePanel.setLayout(maimMinuePanelLayout);
-        maimMinuePanelLayout.setHorizontalGroup(
-            maimMinuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, maimMinuePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ticTckToeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(maimMinuePanelLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, maimMinuePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout MainMenuPanelLayout = new javax.swing.GroupLayout(MainMenuPanel);
+        MainMenuPanel.setLayout(MainMenuPanelLayout);
+        MainMenuPanelLayout.setHorizontalGroup(
+            MainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainMenuPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(maimMinuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, maimMinuePanelLayout.createSequentialGroup()
-                        .addComponent(recordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(130, 130, 130))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, maimMinuePanelLayout.createSequentialGroup()
-                        .addComponent(quitButton)
-                        .addGap(53, 53, 53))))
+                .addComponent(LabelLogo2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(MainMenuPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(MainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ButtonStartGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonQuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        maimMinuePanelLayout.setVerticalGroup(
-            maimMinuePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(maimMinuePanelLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(ticTckToeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
-                .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(recordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(quitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+        MainMenuPanelLayout.setVerticalGroup(
+            MainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MainMenuPanelLayout.createSequentialGroup()
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addComponent(LabelLogo2)
+                .addGap(69, 69, 69)
+                .addComponent(ButtonStartGame)
+                .addGap(64, 64, 64)
+                .addComponent(ButtonRecords)
+                .addGap(62, 62, 62)
+                .addComponent(ButtonQuit)
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
-        parentPanel.add(maimMinuePanel, "card2");
+        parentPanel.add(MainMenuPanel, "card2");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 889, Short.MAX_VALUE)
+            .addGap(0, 935, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGap(0, 618, Short.MAX_VALUE)
         );
 
         parentPanel.add(jPanel1, "card4");
@@ -302,62 +336,95 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
+    private void ButtonStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStartGameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_startGameButtonActionPerformed
+    }//GEN-LAST:event_ButtonStartGameActionPerformed
 
-    private void ButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSignupActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(maimMinuePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();         // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonSignupActionPerformed
-
-    private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(maimMinuePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonLoginActionPerformed
-
-    private void TextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldUsernameActionPerformed
+    private void ButtonStartGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_TextFieldUsernameActionPerformed
+        ButtonStartGame.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonStartGameMouseEntered
+
+    private void ButtonStartGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseExited
+        // TODO add your handling code here:
+        ButtonStartGame.setForeground(new Color(158, 158, 158));
+    }//GEN-LAST:event_ButtonStartGameMouseExited
+
+    private void ButtonRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseEntered
+        // TODO add your handling code here:
+        ButtonRecords.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonRecordsMouseEntered
+
+    private void ButtonRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseExited
+        // TODO add your handling code here:
+        ButtonRecords.setForeground(new Color(158, 158, 158));
+
+    }//GEN-LAST:event_ButtonRecordsMouseExited
+
+    private void ButtonQuitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitMouseEntered
+        // TODO add your handling code here:
+        ButtonQuit.setForeground(new Color(224, 224, 224));
+
+    }//GEN-LAST:event_ButtonQuitMouseEntered
+
+    private void ButtonQuitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitMouseExited
+        // TODO add your handling code here:
+        ButtonQuit.setForeground(new Color(158, 158, 158));
+
+    }//GEN-LAST:event_ButtonQuitMouseExited
 
     private void ButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonExitActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_ButtonExitActionPerformed
 
-    private void ButtonExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExitMouseEntered
-        // TODO add your handling code here:
-        ButtonExit.setForeground(new Color(229, 57, 53));
-    }//GEN-LAST:event_ButtonExitMouseEntered
-
     private void ButtonExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExitMouseExited
         // TODO add your handling code here:
         ButtonExit.setForeground(new Color(183, 28, 28));
     }//GEN-LAST:event_ButtonExitMouseExited
 
-    private void ButtonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseEntered
+    private void ButtonExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonExitMouseEntered
         // TODO add your handling code here:
-        ButtonLogin.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonLoginMouseEntered
+        ButtonExit.setForeground(new Color(229, 57, 53));
+    }//GEN-LAST:event_ButtonExitMouseEntered
 
-    private void ButtonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseExited
+    private void ButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSignupActionPerformed
+        parentPanel.removeAll();
+        parentPanel.add(MainMenuPanel);
+        parentPanel.repaint();
+        parentPanel.revalidate();         // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonSignupActionPerformed
+
+    private void ButtonSignupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseExited
         // TODO add your handling code here:
-        ButtonLogin.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonLoginMouseExited
+        ButtonSignup.setForeground(new Color(158, 158, 158));
+    }//GEN-LAST:event_ButtonSignupMouseExited
 
     private void ButtonSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseEntered
         // TODO add your handling code here:
         ButtonSignup.setForeground(new Color(224, 224, 224));
     }//GEN-LAST:event_ButtonSignupMouseEntered
 
-    private void ButtonSignupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseExited
+    private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
+        parentPanel.removeAll();
+        parentPanel.add(MainMenuPanel);
+        parentPanel.repaint();
+        parentPanel.revalidate();        // TODO add your handling code here:
+    }//GEN-LAST:event_ButtonLoginActionPerformed
+
+    private void ButtonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseExited
         // TODO add your handling code here:
-        ButtonSignup.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonSignupMouseExited
+        ButtonLogin.setForeground(new Color(158, 158, 158));
+    }//GEN-LAST:event_ButtonLoginMouseExited
+
+    private void ButtonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseEntered
+        // TODO add your handling code here:
+        ButtonLogin.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonLoginMouseEntered
+
+    private void TextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFieldUsernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -397,19 +464,19 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonExit;
     private javax.swing.JButton ButtonLogin;
+    private javax.swing.JButton ButtonQuit;
+    private javax.swing.JButton ButtonRecords;
     private javax.swing.JButton ButtonSignup;
+    private javax.swing.JButton ButtonStartGame;
     private javax.swing.JLabel LabelLogo;
+    private javax.swing.JLabel LabelLogo2;
     private javax.swing.JLabel LabelPassword;
     private javax.swing.JLabel LabelUsername;
+    private javax.swing.JPanel MainMenuPanel;
     private javax.swing.JPasswordField PasswordFieldPassword;
     private javax.swing.JTextField TextFieldUsername;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel loginPanel;
-    private javax.swing.JPanel maimMinuePanel;
     private javax.swing.JPanel parentPanel;
-    private javax.swing.JButton quitButton;
-    private javax.swing.JButton recordButton;
-    private javax.swing.JButton startGameButton;
-    private javax.swing.JLabel ticTckToeLabel;
     // End of variables declaration//GEN-END:variables
 }
