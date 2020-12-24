@@ -1,18 +1,15 @@
-
 package gui;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.*;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-
 
 public class TicTacToeFrame extends javax.swing.JFrame {
 
     Font FONT_ZORQUE;
+    CardLayout cards;
 
     public TicTacToeFrame() {
         setUndecorated(true);
@@ -24,6 +21,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         setSize(width, height);
 
         initComponents();
+        cards = (CardLayout) parentPanel.getLayout();
+
         try {
             InputStream is = new BufferedInputStream(getClass().getResourceAsStream("resources/zorque.ttf"));
             FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -55,7 +54,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonQuit.setOpaque(false);
             ButtonQuit.setContentAreaFilled(false);
             ButtonQuit.setBorderPainted(false);
-            
+
             ButtonOnePlayer.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonTwoPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowGameMode.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -67,8 +66,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonTwoPlayers.setBorderPainted(false);
             ButtonArrowGameMode.setOpaque(false);
             ButtonArrowGameMode.setContentAreaFilled(false);
-            ButtonArrowGameMode.setBorderPainted(false);          
-        
+            ButtonArrowGameMode.setBorderPainted(false);
+
             ButtonSamePC.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowTowPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -81,7 +80,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowTowPlayers.setOpaque(false);
             ButtonArrowTowPlayers.setContentAreaFilled(false);
             ButtonArrowTowPlayers.setBorderPainted(false);
-               
+
             ButtonCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -94,7 +93,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowLocalNetwork.setOpaque(false);
             ButtonArrowLocalNetwork.setContentAreaFilled(false);
             ButtonArrowLocalNetwork.setBorderPainted(false);
-        
+
             ButtonMyProfile.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowRecords.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -225,7 +224,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         LoginPanelLayout.setHorizontalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(348, Short.MAX_VALUE)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(LoginPanelLayout.createSequentialGroup()
                         .addComponent(ButtonLogin)
@@ -235,7 +234,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                     .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LabelUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LabelPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(348, Short.MAX_VALUE))
             .addGroup(LoginPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelLogo)
@@ -246,7 +245,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(LoginPanelLayout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addComponent(LabelLogo)
-                .addGap(160, 160, 160)
+                .addGap(178, 178, 178)
                 .addComponent(LabelUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,10 +257,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonLogin)
                     .addComponent(ButtonSignup))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
-        parentPanel.add(LoginPanel, "card1");
+        parentPanel.add(LoginPanel, "LoginCard");
 
         MainMenuPanel.setBackground(new java.awt.Color(33, 33, 33));
 
@@ -328,12 +327,12 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         MainMenuPanelLayout.setHorizontalGroup(
             MainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainMenuPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(385, Short.MAX_VALUE)
                 .addGroup(MainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonStartGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonQuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(385, Short.MAX_VALUE))
             .addGroup(MainMenuPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelLogo2)
@@ -344,16 +343,16 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(MainMenuPanelLayout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addComponent(LabelLogo2)
-                .addGap(160, 160, 160)
+                .addGap(173, 173, 173)
                 .addComponent(ButtonStartGame)
                 .addGap(64, 64, 64)
                 .addComponent(ButtonRecords)
                 .addGap(62, 62, 62)
                 .addComponent(ButtonQuit)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
-        parentPanel.add(MainMenuPanel, "card2");
+        parentPanel.add(MainMenuPanel, "MainMenuCard");
 
         GameModePanel.setBackground(new java.awt.Color(33, 33, 33));
 
@@ -435,7 +434,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        parentPanel.add(GameModePanel, "card4");
+        parentPanel.add(GameModePanel, "GameModeCard");
 
         TwoPlayersPanel.setBackground(new java.awt.Color(33, 33, 33));
 
@@ -516,7 +515,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        parentPanel.add(TwoPlayersPanel, "card5");
+        parentPanel.add(TwoPlayersPanel, "TwoPlayersCard");
 
         LocalNetworkPanel.setBackground(new java.awt.Color(33, 33, 33));
 
@@ -597,7 +596,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        parentPanel.add(LocalNetworkPanel, "card6");
+        parentPanel.add(LocalNetworkPanel, "LocalNetworkCard");
 
         RecordsPanel.setBackground(new java.awt.Color(38, 38, 38));
 
@@ -660,25 +659,25 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(RecordsPanelLayout.createSequentialGroup()
                 .addGroup(RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(RecordsPanelLayout.createSequentialGroup()
-                        .addGap(356, 356, 356)
-                        .addGroup(RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ButtonMyProfile)
-                            .addComponent(ButtonPlayers)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ButtonMyProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonPlayers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(ButtonArrowRecords))
-                .addGap(0, 471, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         RecordsPanelLayout.setVerticalGroup(
             RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RecordsPanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowRecords)
-                .addGap(164, 164, 164)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonMyProfile)
-                .addGap(73, 73, 73)
+                .addGap(65, 65, 65)
                 .addComponent(ButtonPlayers)
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        parentPanel.add(RecordsPanel, "card7");
+        parentPanel.add(RecordsPanel, "RecordsCard");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -693,125 +692,91 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonStartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonStartGameActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(GameModePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate(); // TODO add your handling code here:
+        cards.show(parentPanel, "GameModeCard");
     }//GEN-LAST:event_ButtonStartGameActionPerformed
 
     private void ButtonStartGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseEntered
-        // TODO add your handling code here:
         ButtonStartGame.setForeground(new Color(224, 224, 224));
     }//GEN-LAST:event_ButtonStartGameMouseEntered
 
     private void ButtonStartGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseExited
-        // TODO add your handling code here:
         ButtonStartGame.setForeground(new Color(158, 158, 158));
     }//GEN-LAST:event_ButtonStartGameMouseExited
 
     private void ButtonRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseEntered
-        // TODO add your handling code here:
         ButtonRecords.setForeground(new Color(224, 224, 224));
     }//GEN-LAST:event_ButtonRecordsMouseEntered
 
     private void ButtonRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseExited
-        // TODO add your handling code here:
         ButtonRecords.setForeground(new Color(158, 158, 158));
-
     }//GEN-LAST:event_ButtonRecordsMouseExited
 
     private void ButtonQuitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitMouseEntered
-        // TODO add your handling code here:
         ButtonQuit.setForeground(new Color(224, 224, 224));
-
     }//GEN-LAST:event_ButtonQuitMouseEntered
 
     private void ButtonQuitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitMouseExited
-        // TODO add your handling code here:
         ButtonQuit.setForeground(new Color(158, 158, 158));
-
     }//GEN-LAST:event_ButtonQuitMouseExited
 
     private void ButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSignupActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(MainMenuPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();         // TODO add your handling code here:
+        cards.show(parentPanel, "MainMenuCard");
     }//GEN-LAST:event_ButtonSignupActionPerformed
 
     private void ButtonSignupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseExited
-        // TODO add your handling code here:
         ButtonSignup.setForeground(new Color(158, 158, 158));
     }//GEN-LAST:event_ButtonSignupMouseExited
 
     private void ButtonSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseEntered
-        // TODO add your handling code here:
         ButtonSignup.setForeground(new Color(224, 224, 224));
     }//GEN-LAST:event_ButtonSignupMouseEntered
 
     private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(MainMenuPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
+        cards.show(parentPanel, "MainMenuCard");
     }//GEN-LAST:event_ButtonLoginActionPerformed
 
     private void ButtonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseExited
-        // TODO add your handling code here:
         ButtonLogin.setForeground(new Color(158, 158, 158));
     }//GEN-LAST:event_ButtonLoginMouseExited
 
     private void ButtonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseEntered
-        // TODO add your handling code here:
         ButtonLogin.setForeground(new Color(224, 224, 224));
     }//GEN-LAST:event_ButtonLoginMouseEntered
 
     private void TextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldUsernameActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_TextFieldUsernameActionPerformed
 
     private void ButtonQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonQuitActionPerformed
-               System.exit(0);
- // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_ButtonQuitActionPerformed
 
     private void ButtonTwoPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(TwoPlayersPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();    // TODO add your handling code here:
+        cards.show(parentPanel, "TwoPlayersCard");
     }//GEN-LAST:event_ButtonTwoPlayersActionPerformed
 
     private void ButtonArrowGameModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(MainMenuPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();  // TODO add your handling code here:
+        cards.show(parentPanel, "MainMenuCard");
     }//GEN-LAST:event_ButtonArrowGameModeActionPerformed
 
     private void ButtonOnePlayerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonOnePlayerMouseEntered
         ButtonOnePlayer.setForeground(new Color(224, 224, 224));
- // TODO add your handling code here:
     }//GEN-LAST:event_ButtonOnePlayerMouseEntered
 
     private void ButtonOnePlayerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonOnePlayerMouseExited
         ButtonOnePlayer.setForeground(new Color(158, 158, 158));
- // TODO add your handling code here:
     }//GEN-LAST:event_ButtonOnePlayerMouseExited
 
     private void ButtonTwoPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersMouseEntered
         ButtonTwoPlayers.setForeground(new Color(224, 224, 224));
- // TODO add your handling code here:
     }//GEN-LAST:event_ButtonTwoPlayersMouseEntered
 
     private void ButtonTwoPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersMouseExited
         ButtonTwoPlayers.setForeground(new Color(158, 158, 158));
-// TODO add your handling code here:
     }//GEN-LAST:event_ButtonTwoPlayersMouseExited
 
     private void ButtonArrowGameModeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeMouseEntered
         ButtonArrowGameMode.setForeground(new Color(224, 224, 224));
-       // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowGameModeMouseEntered
 
     private void ButtonArrowGameModeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeMouseExited
@@ -819,206 +784,162 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonArrowGameModeMouseExited
 
     private void ButtonLocalNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(LocalNetworkPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
+        cards.show(parentPanel, "LocalNetworkCard");
     }//GEN-LAST:event_ButtonLocalNetworkActionPerformed
 
     private void ButtonArrowTowPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(GameModePanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
+        cards.show(parentPanel, "GameModeCard");
     }//GEN-LAST:event_ButtonArrowTowPlayersActionPerformed
 
     private void ButtonSamePCMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSamePCMouseEntered
         ButtonSamePC.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonSamePCMouseEntered
 
     private void ButtonSamePCMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSamePCMouseExited
         ButtonSamePC.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_ButtonSamePCMouseExited
 
     private void ButtonArrowTowPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersMouseEntered
         ButtonArrowTowPlayers.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowTowPlayersMouseEntered
 
     private void ButtonArrowTowPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersMouseExited
         ButtonArrowTowPlayers.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowTowPlayersMouseExited
 
     private void ButtonLocalNetworkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkMouseEntered
         ButtonLocalNetwork.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_ButtonLocalNetworkMouseEntered
 
     private void ButtonLocalNetworkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkMouseExited
         ButtonLocalNetwork.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonLocalNetworkMouseExited
 
     private void ButtonJoinGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonJoinGameActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_ButtonJoinGameActionPerformed
 
     private void ButtonCreateGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCreateGameMouseEntered
         ButtonCreateGame.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonCreateGameMouseEntered
 
     private void ButtonCreateGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCreateGameMouseExited
         ButtonCreateGame.setForeground(new Color(158, 158, 158));
-    // TODO add your handling code here:
     }//GEN-LAST:event_ButtonCreateGameMouseExited
 
     private void ButtonArrowLocalNetworkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkMouseEntered
         ButtonArrowLocalNetwork.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowLocalNetworkMouseEntered
 
     private void ButtonArrowLocalNetworkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkMouseExited
         ButtonArrowLocalNetwork.setForeground(new Color(158, 158, 158));
-    // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowLocalNetworkMouseExited
 
     private void ButtonJoinGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinGameMouseEntered
         ButtonJoinGame.setForeground(new Color(224, 224, 224));
-       // TODO add your handling code here:
     }//GEN-LAST:event_ButtonJoinGameMouseEntered
 
     private void ButtonJoinGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinGameMouseExited
         ButtonJoinGame.setForeground(new Color(158, 158, 158));
-    // TODO add your handling code here:
     }//GEN-LAST:event_ButtonJoinGameMouseExited
 
     private void ButtonArrowLocalNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(TwoPlayersPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
+        cards.show(parentPanel, "TwoPlayersCard");
     }//GEN-LAST:event_ButtonArrowLocalNetworkActionPerformed
 
     private void ButtonRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRecordsActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(RecordsPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate(); // TODO add your handling code here:
+        cards.show(parentPanel, "RecordsCard");
     }//GEN-LAST:event_ButtonRecordsActionPerformed
 
     private void ButtonMyProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMyProfileActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_ButtonMyProfileActionPerformed
 
     private void ButtonArrowRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsMouseEntered
         ButtonArrowRecords.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowRecordsMouseEntered
 
     private void ButtonArrowRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsMouseExited
         ButtonArrowRecords.setForeground(new Color(158, 158, 158));
-       // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowRecordsMouseExited
 
     private void ButtonMyProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMyProfileMouseEntered
         ButtonMyProfile.setForeground(new Color(224, 224, 224));
-       // TODO add your handling code here:
     }//GEN-LAST:event_ButtonMyProfileMouseEntered
 
     private void ButtonMyProfileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMyProfileMouseExited
         ButtonMyProfile.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_ButtonMyProfileMouseExited
 
     private void ButtonPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayersMouseEntered
         ButtonPlayers.setForeground(new Color(224, 224, 224));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonPlayersMouseEntered
 
     private void ButtonPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayersMouseExited
         ButtonPlayers.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonPlayersMouseExited
 
     private void ButtonArrowRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsActionPerformed
-        parentPanel.removeAll();
-        parentPanel.add(MainMenuPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();        // TODO add your handling code here:
+        cards.show(parentPanel, "MainMenuCard");
     }//GEN-LAST:event_ButtonArrowRecordsActionPerformed
 
     private void ButtonLocalNetworkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkMouseReleased
         ButtonLocalNetwork.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonLocalNetworkMouseReleased
 
     private void ButtonSamePCMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSamePCMouseReleased
         ButtonSamePC.setForeground(new Color(158, 158, 158));
-       // TODO add your handling code here:
     }//GEN-LAST:event_ButtonSamePCMouseReleased
 
     private void ButtonArrowTowPlayersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersMouseReleased
         ButtonArrowTowPlayers.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowTowPlayersMouseReleased
 
     private void ButtonCreateGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCreateGameMouseReleased
         ButtonCreateGame.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonCreateGameMouseReleased
 
     private void ButtonJoinGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinGameMouseReleased
         ButtonJoinGame.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonJoinGameMouseReleased
 
     private void ButtonArrowLocalNetworkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkMouseReleased
         ButtonArrowLocalNetwork.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowLocalNetworkMouseReleased
 
     private void ButtonArrowRecordsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsMouseReleased
         ButtonArrowRecords.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowRecordsMouseReleased
 
     private void ButtonMyProfileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMyProfileMouseReleased
         ButtonMyProfile.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonMyProfileMouseReleased
 
     private void ButtonPlayersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayersMouseReleased
         ButtonPlayers.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonPlayersMouseReleased
 
     private void ButtonArrowGameModeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeMouseReleased
         ButtonArrowGameMode.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowGameModeMouseReleased
 
     private void ButtonOnePlayerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonOnePlayerMouseReleased
         ButtonOnePlayer.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonOnePlayerMouseReleased
 
     private void ButtonTwoPlayersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersMouseReleased
         ButtonTwoPlayers.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonTwoPlayersMouseReleased
 
     private void ButtonStartGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseReleased
         ButtonStartGame.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonStartGameMouseReleased
 
     private void ButtonRecordsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseReleased
         ButtonRecords.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonRecordsMouseReleased
 
     /**
