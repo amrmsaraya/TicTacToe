@@ -43,7 +43,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         };
         TableAvailableServers.setModel(model);
         try {
-            InputStream is = new BufferedInputStream(getClass().getResourceAsStream("./resources/zorque.ttf"));
+            InputStream is = new BufferedInputStream(getClass().getResourceAsStream("resources/zorque.ttf"));
             FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
 
             // Login
