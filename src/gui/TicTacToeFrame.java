@@ -3,29 +3,47 @@ package gui;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.io.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Vector;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import server.*;
 
 public class TicTacToeFrame extends javax.swing.JFrame {
-
-    Font FONT_ZORQUE;
+    
+    public static Font FONT_ZORQUE;
     CardLayout cards;
-
+    CreateServer createServer;
+    JoinServer joinServer;
+    Vector<User> serverInfo;
+    public static DefaultTableModel model;
+    
     public TicTacToeFrame() {
-        setUndecorated(true);
-        setVisible(true);
-        setResizable(false);
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         setSize(width, height);
-
+        setUndecorated(true);
+        setVisible(true);
+        setResizable(false);
+        
         initComponents();
+        
         cards = (CardLayout) parentPanel.getLayout();
-
+        createServer = new CreateServer();
+        joinServer = new JoinServer(this);
+        serverInfo = new Vector<User>();
+        model = new DefaultTableModel(new Object[]{"Username", "Ip Address"}, 0) {
+            public boolean isCellEditable(int i, int i1) {
+                return false;
+            }
+        };
+        TableAvailableServers.setModel(model);
         try {
-            InputStream is = new BufferedInputStream(getClass().getResourceAsStream("resources/zorque.ttf"));
+            InputStream is = new BufferedInputStream(getClass().getResourceAsStream("./resources/zorque.ttf"));
             FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
 
             // Login
@@ -187,19 +205,27 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
             // Join Game Card
             ButtonJoin.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonRefresh.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonSearch.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonJoin.setOpaque(false);
             ButtonJoin.setContentAreaFilled(false);
             ButtonJoin.setBorderPainted(false);
-            ButtonRefresh.setOpaque(false);
-            ButtonRefresh.setContentAreaFilled(false);
-            ButtonRefresh.setBorderPainted(false);
+            ButtonSearch.setOpaque(false);
+            ButtonSearch.setContentAreaFilled(false);
+            ButtonSearch.setBorderPainted(false);
             ButtonArrowJoinGame.setOpaque(false);
             ButtonArrowJoinGame.setContentAreaFilled(false);
             ButtonArrowJoinGame.setBorderPainted(false);
-            TableActivePlayer.getTableHeader().setFont(FONT_ZORQUE.deriveFont(32f));
-            TableActivePlayer.getTableHeader().setForeground(new Color(33, 33, 33));
+            TableAvailableServers.getTableHeader().setFont(FONT_ZORQUE.deriveFont(32f));
+            TableAvailableServers.getTableHeader().setForeground(new Color(33, 33, 33));
+            TableAvailableServers.setFont(TicTacToeFrame.FONT_ZORQUE.deriveFont(32f));
+            TableAvailableServers.setForeground(new Color(158, 158, 158));
+            TableAvailableServers.setBackground(new Color(33, 33, 33));
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            TableAvailableServers.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            TableAvailableServers.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+            ((DefaultTableCellRenderer) TableAvailableServers.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
             // Game Result
             ButtonPlayAgain.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -215,7 +241,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonQuitResult.setOpaque(false);
             ButtonQuitResult.setContentAreaFilled(false);
             ButtonQuitResult.setBorderPainted(false);
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -262,9 +288,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         JoinGamePanel = new javax.swing.JPanel();
         ButtonArrowJoinGame = new javax.swing.JButton();
         ButtonJoin = new javax.swing.JButton();
-        ButtonRefresh = new javax.swing.JButton();
+        ButtonSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableActivePlayer = new javax.swing.JTable();
+        TableAvailableServers = new javax.swing.JTable();
         RecordsPanel = new javax.swing.JPanel();
         ButtonMyProfile = new javax.swing.JButton();
         ButtonPlayers = new javax.swing.JButton();
@@ -796,7 +822,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.add(CreateGamePanel, "CreateGameCard");
 
-        JoinGamePanel.setBackground(new java.awt.Color(38, 38, 38));
+        JoinGamePanel.setBackground(new java.awt.Color(33, 33, 33));
 
         ButtonArrowJoinGame.setForeground(new java.awt.Color(158, 158, 158));
         ButtonArrowJoinGame.setText("<<");
@@ -830,25 +856,31 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
         });
 
-        ButtonRefresh.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonRefresh.setText("Refresh");
-        ButtonRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+        ButtonSearch.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonSearch.setText("Search");
+        ButtonSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonRefreshMouseEntered(evt);
+                ButtonSearchMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                ButtonRefreshMouseExited(evt);
+                ButtonSearchMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                ButtonRefreshMousePressed(evt);
+                ButtonSearchMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonRefreshMouseReleased(evt);
+                ButtonSearchMouseReleased(evt);
+            }
+        });
+        ButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSearchActionPerformed(evt);
             }
         });
 
-        TableActivePlayer.setBackground(new java.awt.Color(158, 158, 158));
-        TableActivePlayer.setModel(new javax.swing.table.DefaultTableModel(
+        TableAvailableServers.setBackground(new java.awt.Color(33, 33, 33));
+        TableAvailableServers.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        TableAvailableServers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -856,7 +888,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 "Name", "IP Address"
             }
         ));
-        jScrollPane1.setViewportView(TableActivePlayer);
+        TableAvailableServers.setColumnSelectionAllowed(false);
+        TableAvailableServers.setRowHeight(35);
+        TableAvailableServers.setRowMargin(5);
+        jScrollPane1.setViewportView(TableAvailableServers);
 
         javax.swing.GroupLayout JoinGamePanelLayout = new javax.swing.GroupLayout(JoinGamePanel);
         JoinGamePanel.setLayout(JoinGamePanelLayout);
@@ -868,8 +903,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonJoin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ButtonRefresh)
+                .addGap(100, 100, 100)
+                .addComponent(ButtonSearch)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -880,13 +915,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowJoinGame)
-                .addGap(51, 51, 51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonJoin)
-                    .addComponent(ButtonRefresh))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ButtonSearch))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         parentPanel.add(JoinGamePanel, "JoinGameCard");
@@ -1222,13 +1257,12 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(LabelPlayer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                            .addComponent(LabelCurrentTurn)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(LabelCurrentTurnValue))
-                        .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ButtonForfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(GameBoardPanelLayout.createSequentialGroup()
+                        .addComponent(LabelCurrentTurn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LabelCurrentTurnValue))
+                    .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonForfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(110, Short.MAX_VALUE))
         );
         GameBoardPanelLayout.setVerticalGroup(
@@ -1776,6 +1810,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private void ButtonCreateGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCreateGameActionPerformed
         // TODO add your handling code here:
         cards.show(parentPanel, "CreateGameCard");
+        createServer.create();
     }//GEN-LAST:event_ButtonCreateGameActionPerformed
 
     private void ButtonSamePCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSamePCActionPerformed
@@ -1793,15 +1828,15 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonJoin.setForeground(new Color(158, 158, 158));
     }//GEN-LAST:event_ButtonJoinMouseExited
 
-    private void ButtonRefreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRefreshMouseEntered
+    private void ButtonSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMouseEntered
         // TODO add your handling code here:
-        ButtonRefresh.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonRefreshMouseEntered
+        ButtonSearch.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonSearchMouseEntered
 
-    private void ButtonRefreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRefreshMouseExited
+    private void ButtonSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMouseExited
         // TODO add your handling code here:
-        ButtonRefresh.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonRefreshMouseExited
+        ButtonSearch.setForeground(new Color(158, 158, 158));
+    }//GEN-LAST:event_ButtonSearchMouseExited
 
     private void ButtonArrowJoinGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowJoinGameMouseEntered
         // TODO add your handling code here:
@@ -1813,20 +1848,44 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonArrowJoinGame.setForeground(new Color(158, 158, 158));
     }//GEN-LAST:event_ButtonArrowJoinGameMouseExited
 
-    private void ButtonRefreshMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRefreshMousePressed
+    private void ButtonSearchMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMousePressed
         // TODO add your handling code here:
-        ButtonRefresh.setForeground(new Color(255, 255, 255));
-    }//GEN-LAST:event_ButtonRefreshMousePressed
+        ButtonSearch.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_ButtonSearchMousePressed
 
-    private void ButtonRefreshMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRefreshMouseReleased
+    private void ButtonSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMouseReleased
         // TODO add your handling code here:
-        ButtonRefresh.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonRefreshMouseReleased
+        ButtonSearch.setForeground(new Color(224, 224, 224));
+    }//GEN-LAST:event_ButtonSearchMouseReleased
 
     private void ButtonJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonJoinActionPerformed
         // TODO add your handling code here:
         cards.show(parentPanel, "GameBoardCard");
     }//GEN-LAST:event_ButtonJoinActionPerformed
+
+    private void ButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSearchActionPerformed
+        // TODO add your handling code here:
+        joinServer.search();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                serverInfo.setSize(0);
+//                while (true) {
+//                    if (joinServer.getSearchFinished() == true) {
+//                        serverInfo = joinServer.getServerIpVector();
+//                        for (User user : serverInfo) {
+//                            System.out.println(user.getUsername());
+//                            System.out.println(user.getIpAddress());
+//                            model.addRow(new Object[]{user.getUsername(), user.getIpAddress()});
+//                            model.fireTableDataChanged();
+//                        }
+//                        joinServer.setSearchFinished(false);
+//                        break;
+//                    }
+//                }
+//            }
+//        }).start();
+    }//GEN-LAST:event_ButtonSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1894,8 +1953,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JButton ButtonQuit;
     private javax.swing.JButton ButtonQuitResult;
     private javax.swing.JButton ButtonRecords;
-    private javax.swing.JButton ButtonRefresh;
     private javax.swing.JButton ButtonSamePC;
+    public static javax.swing.JButton ButtonSearch;
     private javax.swing.JButton ButtonSignup;
     private javax.swing.JButton ButtonStartGame;
     private javax.swing.JButton ButtonTwoPlayers;
@@ -1927,7 +1986,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField PasswordFieldPassword;
     private javax.swing.JPanel RecordsPanel;
     private javax.swing.JScrollPane ScrollPaneHistoryTable;
-    private javax.swing.JTable TableActivePlayer;
+    public static javax.swing.JTable TableAvailableServers;
     private javax.swing.JTable TableHistory;
     private javax.swing.JTextField TextFieldUsername;
     private javax.swing.JPanel TwoPlayersPanel;
