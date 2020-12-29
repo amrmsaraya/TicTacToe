@@ -27,10 +27,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         setSize(width, height);
-        setUndecorated(true);
-        setAutoRequestFocus(true);
-        setVisible(true);
         setResizable(false);
+        setUndecorated(true);
+        setVisible(true);
+        setAutoRequestFocus(true);
 
         initComponents();
 
@@ -51,7 +51,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
 
             // Login
-            LoginPanel.setBackground(new Color(33,33,33));
+            LoginPanel.setBackground(new Color(33, 33, 33));
             LabelLogo.setFont(FONT_ZORQUE.deriveFont(144f));
             LabelLogo.setForeground(new Color(198, 40, 40));
             LabelUsername.setFont(FONT_ZORQUE.deriveFont(60f));
@@ -71,7 +71,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             TextFieldUsername.requestFocus();
 
             // Main Menu
-            MainMenuPanel.setBackground(new Color(33,33,33));
+            MainMenuPanel.setBackground(new Color(33, 33, 33));
             LabelLogo2.setFont(FONT_ZORQUE.deriveFont(144f));
             LabelLogo2.setForeground(new Color(198, 40, 40));
             ButtonStartGame.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -91,7 +91,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonQuit.setBorderPainted(false);
 
             // Game Modes
-            GameModePanel.setBackground(new Color(33,33,33));
+            GameModePanel.setBackground(new Color(33, 33, 33));
             ButtonOnePlayer.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonOnePlayer.setForeground(new Color(63, 81, 181));
             ButtonTwoPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -109,7 +109,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowGameMode.setBorderPainted(false);
 
             // Two Players Mode
-            TwoPlayersPanel.setBackground(new Color(33,33,33));
+            TwoPlayersPanel.setBackground(new Color(33, 33, 33));
             ButtonSamePC.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonSamePC.setForeground(new Color(63, 81, 181));
             ButtonLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -127,7 +127,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowTwoPlayers.setBorderPainted(false);
 
             // Local Network Mode
-            LocalNetworkPanel.setBackground(new Color(33,33,33));
+            LocalNetworkPanel.setBackground(new Color(33, 33, 33));
             ButtonCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonCreateGame.setForeground(new Color(63, 81, 181));
             ButtonJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -145,7 +145,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowLocalNetwork.setBorderPainted(false);
 
             // Profile
-            ProfilePanel.setBackground(new Color(33,33,33));
+            ProfilePanel.setBackground(new Color(33, 33, 33));
             LabelWelcome.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowMyProfile.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowMyProfile.setForeground(new Color(198, 40, 40));
@@ -164,7 +164,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowMyProfile.setBorderPainted(false);
 
             // Game Board
-            GameBoardPanel.setBackground(new Color(33,33,33));
+            GameBoardPanel.setBackground(new Color(33, 33, 33));
             PanelBoard.setOpaque(false);
             ButtonP1.setFont(FONT_ZORQUE.deriveFont(120f));
             ButtonP2.setFont(FONT_ZORQUE.deriveFont(120f));
@@ -191,7 +191,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonForfit.setBorderPainted(false);
 
             // Create Game
-            CreateGamePanel.setBackground(new Color(33,33,33));
+            CreateGamePanel.setBackground(new Color(33, 33, 33));
             LabelWaitingOpponent.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowCreateGame.setForeground(new Color(198, 40, 40));
@@ -200,7 +200,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowCreateGame.setBorderPainted(false);
 
             // Join Game
-            JoinGamePanel.setBackground(new Color(33,33,33));
+            JoinGamePanel.setBackground(new Color(33, 33, 33));
             ButtonJoin.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonJoin.setForeground(new Color(46, 125, 50));
             ButtonSearch.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -228,7 +228,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ((DefaultTableCellRenderer) TableAvailableServers.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
             // Game Result
-            GameResultPanel.setBackground(new Color(33,33,33));
+            GameResultPanel.setBackground(new Color(33, 33, 33));
             ButtonPlayAgain.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonPlayAgain.setForeground(new Color(46, 125, 50));
             ButtonMainMenu.setFont(FONT_ZORQUE.deriveFont(72f));
@@ -418,13 +418,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addComponent(LabelLogo)
                 .addGap(190, 190, 190)
                 .addComponent(LabelUsername)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(15, 15, 15)
                 .addComponent(TextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(LabelPassword)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(15, 15, 15)
                 .addComponent(PasswordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonLogin)
                     .addComponent(ButtonSignup))
@@ -861,14 +861,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addComponent(ButtonArrowJoinGame)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JoinGamePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ButtonJoin)
-                .addGap(100, 100, 100)
-                .addComponent(ButtonSearch)
+                .addGroup(JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(JoinGamePanelLayout.createSequentialGroup()
+                        .addComponent(ButtonJoin)
+                        .addGap(100, 100, 100)
+                        .addComponent(ButtonSearch)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JoinGamePanelLayout.setVerticalGroup(
@@ -1174,9 +1173,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                             .addComponent(LabelO))
                         .addGap(109, 109, 109)
                         .addComponent(LabelCurrentTurn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(LabelCurrentTurnValue)
-                        .addGap(86, 86, 86)
+                        .addGap(67, 67, 67)
                         .addComponent(ButtonForfit))
                     .addComponent(PanelBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1510,6 +1509,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonForfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonForfitActionPerformed
         // TODO add your handling code here:
+        gameLogic.clearBoard();
         cards.show(parentPanel, "GameResultCard");
     }//GEN-LAST:event_ButtonForfitActionPerformed
 
@@ -1531,7 +1531,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private void ButtonPlayAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonPlayAgainActionPerformed
         // TODO add your handling code here:
         cards.show(parentPanel, "GameBoardCard");
-        gameLogic.clearBoard();
     }//GEN-LAST:event_ButtonPlayAgainActionPerformed
 
     private void ButtonMainMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMainMenuMouseEntered
@@ -1706,19 +1705,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 //        }).start();
     }//GEN-LAST:event_ButtonSearchActionPerformed
 
-    private void ButtonP9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP9ActionPerformed
-        // TODO add your handling code here:
-        if (ButtonP9.getText().isEmpty()) {
-            if (currentTurn.equals("X")) {
-                ButtonP9.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP9.setForeground(new Color(198, 40, 40));
-            }
-            ButtonP9.setText(currentTurn);
-            gameLogic.checkWin();
-        }
-    }//GEN-LAST:event_ButtonP9ActionPerformed
-
     private void ButtonP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP1ActionPerformed
         // TODO add your handling code here:
         currentTurn = gameLogic.checkPlayerTurn();
@@ -1746,6 +1732,20 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP8ActionPerformed
+
+    private void ButtonP9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP9ActionPerformed
+        // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
+        if (ButtonP9.getText().isEmpty()) {
+            if (currentTurn.equals("X")) {
+                ButtonP9.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP9.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP9.setText(currentTurn);
+            gameLogic.checkWin();
+        }
+    }//GEN-LAST:event_ButtonP9ActionPerformed
 
     /**
      * @param args the command line arguments

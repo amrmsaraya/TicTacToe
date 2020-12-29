@@ -20,31 +20,27 @@ public class GameLogic {
             TicTacToeFrame.LabelCurrentTurnValue.setText(playerTurn);
             TicTacToeFrame.LabelCurrentTurnValue.setForeground(new Color(198, 40, 40));
             return "X";
-        } else if (playerTurn.equals("O")) {
+        } else {
             playerTurn = "X";
             TicTacToeFrame.LabelCurrentTurnValue.setText(playerTurn);
             TicTacToeFrame.LabelCurrentTurnValue.setForeground(new Color(63, 81, 181));
             return "O";
         }
-        return " ";
     }
 
     public void playerXwins() {
-        //player x wins
         TicTacToeFrame.cards.show(TicTacToeFrame.parentPanel, "GameResultCard");
         TicTacToeFrame.LabelTmp.setText("Winner is Player X!");
         clearBoard();
     }
 
     public void playerOwins() {
-        //player o wins
         TicTacToeFrame.cards.show(TicTacToeFrame.parentPanel, "GameResultCard");
         TicTacToeFrame.LabelTmp.setText("Winner is Player O!");
         clearBoard();
     }
 
     public void gameDraw() {
-        //System.out.println("game draw");
         TicTacToeFrame.cards.show(TicTacToeFrame.parentPanel, "GameResultCard");
         TicTacToeFrame.LabelTmp.setText("Game is tied :'(");
         clearBoard();
@@ -100,6 +96,7 @@ public class GameLogic {
         } else if (counter == 9) {
             gameDraw();
         }
+
     }
 
     public void clearBoard() {
