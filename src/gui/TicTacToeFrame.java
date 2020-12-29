@@ -24,17 +24,17 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     String currentTurn;
 
     public TicTacToeFrame() {
-        setResizable(false);
         setUndecorated(true);
+        setBackground(new Color(33, 33, 33));
         setVisible(true);
         setAutoRequestFocus(true);
+        setResizable(false);
+
+        initComponents();
+        
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         setSize(width, height);
-        
-
-        initComponents();
-
         cards = (CardLayout) parentPanel.getLayout();
         createServer = new CreateServer();
         gameLogic = new GameLogic();
@@ -97,7 +97,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonOnePlayer.setForeground(new Color(63, 81, 181));
             ButtonTwoPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonTwoPlayers.setForeground(new Color(63, 81, 181));
-            ButtonArrowGameMode.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowGameMode.setFont(FONT_ZORQUE.deriveFont(100f));
             ButtonArrowGameMode.setForeground(new Color(198, 40, 40));
             ButtonOnePlayer.setOpaque(false);
             ButtonOnePlayer.setContentAreaFilled(false);
@@ -115,7 +115,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonSamePC.setForeground(new Color(63, 81, 181));
             ButtonLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonLocalNetwork.setForeground(new Color(63, 81, 181));
-            ButtonArrowTwoPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowTwoPlayers.setFont(FONT_ZORQUE.deriveFont(100f));
             ButtonArrowTwoPlayers.setForeground(new Color(198, 40, 40));
             ButtonSamePC.setOpaque(false);
             ButtonSamePC.setContentAreaFilled(false);
@@ -133,7 +133,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonCreateGame.setForeground(new Color(63, 81, 181));
             ButtonJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonJoinGame.setForeground(new Color(63, 81, 181));
-            ButtonArrowLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowLocalNetwork.setFont(FONT_ZORQUE.deriveFont(100f));
             ButtonArrowLocalNetwork.setForeground(new Color(198, 40, 40));
             ButtonCreateGame.setOpaque(false);
             ButtonCreateGame.setContentAreaFilled(false);
@@ -148,7 +148,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             // Profile
             ProfilePanel.setBackground(new Color(33, 33, 33));
             LabelWelcome.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonArrowMyProfile.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowMyProfile.setFont(FONT_ZORQUE.deriveFont(100f));
             ButtonArrowMyProfile.setForeground(new Color(198, 40, 40));
             LabelTotalGames.setFont(FONT_ZORQUE.deriveFont(48f));
             LabelWins.setFont(FONT_ZORQUE.deriveFont(48f));
@@ -194,7 +194,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             // Create Game
             CreateGamePanel.setBackground(new Color(33, 33, 33));
             LabelWaitingOpponent.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonArrowCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowCreateGame.setFont(FONT_ZORQUE.deriveFont(100f));
             ButtonArrowCreateGame.setForeground(new Color(198, 40, 40));
             ButtonArrowCreateGame.setOpaque(false);
             ButtonArrowCreateGame.setContentAreaFilled(false);
@@ -206,7 +206,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonJoin.setForeground(new Color(46, 125, 50));
             ButtonSearch.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonSearch.setForeground(new Color(63, 81, 181));
-            ButtonArrowJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowJoinGame.setFont(FONT_ZORQUE.deriveFont(100f));
             ButtonArrowJoinGame.setForeground(new Color(198, 40, 40));
             ButtonJoin.setOpaque(false);
             ButtonJoin.setContentAreaFilled(false);
@@ -332,8 +332,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        parentPanel.setBackground(new java.awt.Color(33, 33, 33));
         parentPanel.setLayout(new java.awt.CardLayout());
 
+        LoginPanel.setBackground(new java.awt.Color(30, 30, 30));
         LoginPanel.setFocusable(false);
         LoginPanel.setNextFocusableComponent(TextFieldUsername);
 
@@ -548,7 +550,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
 
         ButtonArrowGameMode.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowGameMode.setText("<<");
+        ButtonArrowGameMode.setText("<html>←</html>");
+        ButtonArrowGameMode.setMargin(new java.awt.Insets(15, 30, 15, 30));
         ButtonArrowGameMode.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ButtonArrowGameModeMouseEntered(evt);
@@ -568,25 +571,25 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         GameModePanelLayout.setHorizontalGroup(
             GameModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(317, Short.MAX_VALUE)
                 .addGroup(GameModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonTwoPlayers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonOnePlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(318, Short.MAX_VALUE))
             .addGroup(GameModePanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowGameMode)
+                .addComponent(ButtonArrowGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         GameModePanelLayout.setVerticalGroup(
             GameModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModePanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(ButtonArrowGameMode)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonArrowGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 132, Short.MAX_VALUE)
                 .addComponent(ButtonOnePlayer)
                 .addGap(60, 60, 60)
                 .addComponent(ButtonTwoPlayers)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         parentPanel.add(GameModePanel, "GameModeCard");
@@ -624,7 +627,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
 
         ButtonArrowTwoPlayers.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowTwoPlayers.setText("<<");
+        ButtonArrowTwoPlayers.setText("<html>←</html>");
+        ButtonArrowTwoPlayers.setMargin(new java.awt.Insets(15, 30, 15, 30));
         ButtonArrowTwoPlayers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ButtonArrowTwoPlayersMouseEntered(evt);
@@ -645,23 +649,23 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
                 .addGroup(TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ButtonArrowTwoPlayers)
+                    .addComponent(ButtonArrowTwoPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(385, Short.MAX_VALUE)
                         .addGroup(TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ButtonLocalNetwork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ButtonSamePC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(386, Short.MAX_VALUE))
         );
         TwoPlayersPanelLayout.setVerticalGroup(
             TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowTwoPlayers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonArrowTwoPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                 .addComponent(ButtonLocalNetwork)
                 .addGap(65, 65, 65)
                 .addComponent(ButtonSamePC)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         parentPanel.add(TwoPlayersPanel, "TwoPlayersCard");
@@ -699,7 +703,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
 
         ButtonArrowLocalNetwork.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowLocalNetwork.setText("<<");
+        ButtonArrowLocalNetwork.setText("<html>←</html>");
+        ButtonArrowLocalNetwork.setMargin(new java.awt.Insets(15, 30, 15, 30));
         ButtonArrowLocalNetwork.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ButtonArrowLocalNetworkMouseEntered(evt);
@@ -725,13 +730,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                     .addComponent(ButtonJoinGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(LocalNetworkPanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowLocalNetwork)
+                .addComponent(ButtonArrowLocalNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         LocalNetworkPanelLayout.setVerticalGroup(
             LocalNetworkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LocalNetworkPanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowLocalNetwork)
+                .addComponent(ButtonArrowLocalNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonCreateGame)
                 .addGap(65, 65, 65)
@@ -744,7 +749,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         CreateGamePanel.setBackground(new java.awt.Color(33, 33, 33));
 
         ButtonArrowCreateGame.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowCreateGame.setText("<<");
+        ButtonArrowCreateGame.setText("<html>←</html>");
+        ButtonArrowCreateGame.setMargin(new java.awt.Insets(15, 30, 15, 30));
         ButtonArrowCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ButtonArrowCreateGameMouseEntered(evt);
@@ -769,7 +775,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             CreateGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CreateGamePanelLayout.createSequentialGroup()
                 .addGroup(CreateGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ButtonArrowCreateGame)
+                    .addComponent(ButtonArrowCreateGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(CreateGamePanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(LabelWaitingOpponent)))
@@ -778,7 +784,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         CreateGamePanelLayout.setVerticalGroup(
             CreateGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CreateGamePanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowCreateGame)
+                .addComponent(ButtonArrowCreateGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelWaitingOpponent)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -787,7 +793,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         parentPanel.add(CreateGamePanel, "CreateGameCard");
 
         ButtonArrowJoinGame.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowJoinGame.setText("<<");
+        ButtonArrowJoinGame.setText("<html>←</html>");
+        ButtonArrowJoinGame.setMargin(new java.awt.Insets(15, 30, 15, 30));
         ButtonArrowJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ButtonArrowJoinGameMouseEntered(evt);
@@ -859,29 +866,30 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         JoinGamePanelLayout.setHorizontalGroup(
             JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowJoinGame)
+                .addComponent(ButtonArrowJoinGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(JoinGamePanelLayout.createSequentialGroup()
-                        .addComponent(ButtonJoin)
-                        .addGap(100, 100, 100)
-                        .addComponent(ButtonSearch)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(JoinGamePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonJoin)
+                .addGap(100, 100, 100)
+                .addComponent(ButtonSearch)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JoinGamePanelLayout.setVerticalGroup(
             JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowJoinGame)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(ButtonArrowJoinGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98)
+                .addGap(30, 30, 30)
                 .addGroup(JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonJoin)
                     .addComponent(ButtonSearch))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         parentPanel.add(JoinGamePanel, "JoinGameCard");
@@ -897,7 +905,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
 
         ButtonArrowMyProfile.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowMyProfile.setText("<<");
+        ButtonArrowMyProfile.setText("<html>←</html>");
+        ButtonArrowMyProfile.setMargin(new java.awt.Insets(15, 30, 15, 30));
         ButtonArrowMyProfile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ButtonArrowMyProfileMouseEntered(evt);
@@ -965,7 +974,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addComponent(LabelLosses)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(ProfilePanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowMyProfile)
+                .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addContainerGap(104, Short.MAX_VALUE)
@@ -987,7 +996,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ProfilePanelLayout.setVerticalGroup(
             ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProfilePanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowMyProfile)
+                .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(LabelWelcome)
                 .addGap(65, 65, 65)
@@ -1137,11 +1146,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         GameBoardPanelLayout.setHorizontalGroup(
             GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(111, Short.MAX_VALUE)
                 .addComponent(PanelBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                         .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(GameBoardPanelLayout.createSequentialGroup()
                                 .addComponent(LabelO)
@@ -1153,7 +1162,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                                 .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(ButtonForfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(LabelCurrentTurn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(105, Short.MAX_VALUE))
                     .addGroup(GameBoardPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(LabelCurrentTurnValue)
