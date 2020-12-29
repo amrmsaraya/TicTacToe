@@ -24,13 +24,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     String currentTurn;
 
     public TicTacToeFrame() {
-        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        setSize(width, height);
         setResizable(false);
         setUndecorated(true);
         setVisible(true);
         setAutoRequestFocus(true);
+        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        setSize(width, height);
+        
 
         initComponents();
 
