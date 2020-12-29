@@ -21,12 +21,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     GameLogic gameLogic;
     Vector<User> serverInfo;
     public static DefaultTableModel model;
+    String currentTurn;
 
     public TicTacToeFrame() {
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         setSize(width, height);
         setUndecorated(true);
+        setAutoRequestFocus(true);
         setVisible(true);
         setResizable(false);
 
@@ -37,6 +39,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         gameLogic = new GameLogic();
         joinServer = new JoinServer(this);
         serverInfo = new Vector<User>();
+        currentTurn = "X";
         model = new DefaultTableModel(new Object[]{"Username", "Ip Address"}, 0) {
             public boolean isCellEditable(int i, int i1) {
                 return false;
@@ -48,11 +51,15 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             FONT_ZORQUE = Font.createFont(Font.TRUETYPE_FONT, is);
 
             // Login
+            LoginPanel.setBackground(new Color(33,33,33));
             LabelLogo.setFont(FONT_ZORQUE.deriveFont(144f));
+            LabelLogo.setForeground(new Color(198, 40, 40));
             LabelUsername.setFont(FONT_ZORQUE.deriveFont(60f));
             LabelPassword.setFont(FONT_ZORQUE.deriveFont(60f));
             ButtonLogin.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonLogin.setForeground(new Color(46, 125, 50));
             ButtonSignup.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonSignup.setForeground(new Color(63, 81, 181));
             ButtonLogin.setOpaque(false);
             ButtonLogin.setContentAreaFilled(false);
             ButtonLogin.setBorderPainted(false);
@@ -64,25 +71,33 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             TextFieldUsername.requestFocus();
 
             // Main Menu
+            MainMenuPanel.setBackground(new Color(33,33,33));
             LabelLogo2.setFont(FONT_ZORQUE.deriveFont(144f));
+            LabelLogo2.setForeground(new Color(198, 40, 40));
             ButtonStartGame.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonRecords.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonStartGame.setForeground(new Color(63, 81, 181));
+            ButtonProfile.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonProfile.setForeground(new Color(63, 81, 181));
             ButtonQuit.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonQuit.setForeground(new Color(63, 81, 181));
             ButtonStartGame.setOpaque(false);
             ButtonStartGame.setContentAreaFilled(false);
             ButtonStartGame.setBorderPainted(false);
-            ButtonRecords.setOpaque(false);
-            ButtonRecords.setContentAreaFilled(false);
-            ButtonRecords.setBorderPainted(false);
+            ButtonProfile.setOpaque(false);
+            ButtonProfile.setContentAreaFilled(false);
+            ButtonProfile.setBorderPainted(false);
             ButtonQuit.setOpaque(false);
             ButtonQuit.setContentAreaFilled(false);
             ButtonQuit.setBorderPainted(false);
 
             // Game Modes
+            GameModePanel.setBackground(new Color(33,33,33));
             ButtonOnePlayer.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonOnePlayer.setForeground(new Color(63, 81, 181));
             ButtonTwoPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonTwoPlayers.setForeground(new Color(63, 81, 181));
             ButtonArrowGameMode.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonArrowCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowGameMode.setForeground(new Color(198, 40, 40));
             ButtonOnePlayer.setOpaque(false);
             ButtonOnePlayer.setContentAreaFilled(false);
             ButtonOnePlayer.setBorderPainted(false);
@@ -92,28 +107,33 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowGameMode.setOpaque(false);
             ButtonArrowGameMode.setContentAreaFilled(false);
             ButtonArrowGameMode.setBorderPainted(false);
-            ButtonArrowCreateGame.setOpaque(false);
-            ButtonArrowCreateGame.setContentAreaFilled(false);
-            ButtonArrowCreateGame.setBorderPainted(false);
 
             // Two Players Mode
+            TwoPlayersPanel.setBackground(new Color(33,33,33));
             ButtonSamePC.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonSamePC.setForeground(new Color(63, 81, 181));
             ButtonLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonArrowTowPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonLocalNetwork.setForeground(new Color(63, 81, 181));
+            ButtonArrowTwoPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowTwoPlayers.setForeground(new Color(198, 40, 40));
             ButtonSamePC.setOpaque(false);
             ButtonSamePC.setContentAreaFilled(false);
             ButtonSamePC.setBorderPainted(false);
             ButtonLocalNetwork.setOpaque(false);
             ButtonLocalNetwork.setContentAreaFilled(false);
             ButtonLocalNetwork.setBorderPainted(false);
-            ButtonArrowTowPlayers.setOpaque(false);
-            ButtonArrowTowPlayers.setContentAreaFilled(false);
-            ButtonArrowTowPlayers.setBorderPainted(false);
+            ButtonArrowTwoPlayers.setOpaque(false);
+            ButtonArrowTwoPlayers.setContentAreaFilled(false);
+            ButtonArrowTwoPlayers.setBorderPainted(false);
 
             // Local Network Mode
+            LocalNetworkPanel.setBackground(new Color(33,33,33));
             ButtonCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonCreateGame.setForeground(new Color(63, 81, 181));
             ButtonJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonJoinGame.setForeground(new Color(63, 81, 181));
             ButtonArrowLocalNetwork.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowLocalNetwork.setForeground(new Color(198, 40, 40));
             ButtonCreateGame.setOpaque(false);
             ButtonCreateGame.setContentAreaFilled(false);
             ButtonCreateGame.setBorderPainted(false);
@@ -124,30 +144,18 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowLocalNetwork.setContentAreaFilled(false);
             ButtonArrowLocalNetwork.setBorderPainted(false);
 
-            // Records
-            ButtonMyProfile.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonPlayers.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonArrowRecords.setFont(FONT_ZORQUE.deriveFont(72f));
-            ButtonMyProfile.setOpaque(false);
-            ButtonMyProfile.setContentAreaFilled(false);
-            ButtonMyProfile.setBorderPainted(false);
-            ButtonPlayers.setOpaque(false);
-            ButtonPlayers.setContentAreaFilled(false);
-            ButtonPlayers.setBorderPainted(false);
-            ButtonArrowRecords.setOpaque(false);
-            ButtonArrowRecords.setContentAreaFilled(false);
-            ButtonArrowRecords.setBorderPainted(false);
-
-            // My Profile
+            // Profile
+            ProfilePanel.setBackground(new Color(33,33,33));
             LabelWelcome.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonArrowMyProfile.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowMyProfile.setForeground(new Color(198, 40, 40));
             LabelTotalGames.setFont(FONT_ZORQUE.deriveFont(48f));
             LabelWins.setFont(FONT_ZORQUE.deriveFont(48f));
             LabelLosses.setFont(FONT_ZORQUE.deriveFont(48f));
             LabelDraws.setFont(FONT_ZORQUE.deriveFont(48f));
-            LabelWins.setForeground(new Color(27, 94, 32));
-            LabelLosses.setForeground(new Color(183, 28, 28));
-            LabelDraws.setForeground(new Color(1, 87, 155));
+            LabelWins.setForeground(new Color(46, 125, 50));
+            LabelLosses.setForeground(new Color(198, 40, 40));
+            LabelDraws.setForeground(new Color(63, 81, 181));
             LabelHistory.setFont(FONT_ZORQUE.deriveFont(48f));
             TableHistory.getTableHeader().setFont(FONT_ZORQUE.deriveFont(32f));
             TableHistory.getTableHeader().setForeground(new Color(33, 33, 33));
@@ -156,6 +164,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonArrowMyProfile.setBorderPainted(false);
 
             // Game Board
+            GameBoardPanel.setBackground(new Color(33,33,33));
             PanelBoard.setOpaque(false);
             ButtonP1.setFont(FONT_ZORQUE.deriveFont(120f));
             ButtonP2.setFont(FONT_ZORQUE.deriveFont(120f));
@@ -167,48 +176,37 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ButtonP8.setFont(FONT_ZORQUE.deriveFont(120f));
             ButtonP9.setFont(FONT_ZORQUE.deriveFont(120f));
             ButtonForfit.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonForfit.setForeground(new Color(198, 40, 40));
             LabelPlayer1.setFont(FONT_ZORQUE.deriveFont(72f));
             LabelPlayer2.setFont(FONT_ZORQUE.deriveFont(72f));
+            LabelX.setFont(FONT_ZORQUE.deriveFont(72f));
+            LabelX.setForeground(new Color(63, 81, 181));
+            LabelO.setFont(FONT_ZORQUE.deriveFont(72f));
+            LabelO.setForeground(new Color(198, 40, 40));
             LabelCurrentTurn.setFont(FONT_ZORQUE.deriveFont(72f));
             LabelCurrentTurnValue.setFont(FONT_ZORQUE.deriveFont(72f));
+            LabelCurrentTurnValue.setForeground(new Color(63, 81, 181));
             ButtonForfit.setOpaque(false);
             ButtonForfit.setContentAreaFilled(false);
             ButtonForfit.setBorderPainted(false);
-//            ButtonP1.setOpaque(true);
-//            ButtonP1.setContentAreaFilled(false);
-//            ButtonP1.setBorderPainted(false);
-//            ButtonP2.setOpaque(false);
-//            ButtonP2.setContentAreaFilled(false);
-//            ButtonP2.setBorderPainted(false);
-//            ButtonP3.setOpaque(false);
-//            ButtonP3.setContentAreaFilled(false);
-//            ButtonP3.setBorderPainted(false);
-//            ButtonP4.setOpaque(false);
-//            ButtonP4.setContentAreaFilled(false);
-//            ButtonP4.setBorderPainted(false);
-//            ButtonP5.setOpaque(false);
-//            ButtonP5.setContentAreaFilled(false);
-//            ButtonP5.setBorderPainted(false);
-//            ButtonP6.setOpaque(false);
-//            ButtonP6.setContentAreaFilled(false);
-//            ButtonP6.setBorderPainted(false);
-//            ButtonP7.setOpaque(false);
-//            ButtonP7.setContentAreaFilled(false);
-//            ButtonP7.setBorderPainted(false);
-//            ButtonP8.setOpaque(false);
-//            ButtonP8.setContentAreaFilled(false);
-//            ButtonP8.setBorderPainted(false);
-//            ButtonP9.setOpaque(false);
-//            ButtonP9.setContentAreaFilled(false);
-//            ButtonP9.setBorderPainted(false);
 
-            // Create Game Card
+            // Create Game
+            CreateGamePanel.setBackground(new Color(33,33,33));
             LabelWaitingOpponent.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowCreateGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowCreateGame.setForeground(new Color(198, 40, 40));
+            ButtonArrowCreateGame.setOpaque(false);
+            ButtonArrowCreateGame.setContentAreaFilled(false);
+            ButtonArrowCreateGame.setBorderPainted(false);
 
-            // Join Game Card
+            // Join Game
+            JoinGamePanel.setBackground(new Color(33,33,33));
             ButtonJoin.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonJoin.setForeground(new Color(46, 125, 50));
             ButtonSearch.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonSearch.setForeground(new Color(63, 81, 181));
             ButtonArrowJoinGame.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonArrowJoinGame.setForeground(new Color(198, 40, 40));
             ButtonJoin.setOpaque(false);
             ButtonJoin.setContentAreaFilled(false);
             ButtonJoin.setBorderPainted(false);
@@ -221,7 +219,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             TableAvailableServers.getTableHeader().setFont(FONT_ZORQUE.deriveFont(32f));
             TableAvailableServers.getTableHeader().setForeground(new Color(33, 33, 33));
             TableAvailableServers.setFont(TicTacToeFrame.FONT_ZORQUE.deriveFont(32f));
-            TableAvailableServers.setForeground(new Color(158, 158, 158));
+            TableAvailableServers.setForeground(new Color(63, 81, 181));
             TableAvailableServers.setBackground(new Color(33, 33, 33));
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -230,9 +228,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ((DefaultTableCellRenderer) TableAvailableServers.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
             // Game Result
+            GameResultPanel.setBackground(new Color(33,33,33));
             ButtonPlayAgain.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonPlayAgain.setForeground(new Color(46, 125, 50));
             ButtonMainMenu.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonMainMenu.setForeground(new Color(63, 81, 181));
             ButtonQuitResult.setFont(FONT_ZORQUE.deriveFont(72f));
+            ButtonQuitResult.setForeground(new Color(198, 40, 40));
             LabelTmp.setFont(FONT_ZORQUE.deriveFont(72f));
             ButtonPlayAgain.setOpaque(false);
             ButtonPlayAgain.setContentAreaFilled(false);
@@ -270,7 +272,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         MainMenuPanel = new javax.swing.JPanel();
         LabelLogo2 = new javax.swing.JLabel();
         ButtonStartGame = new javax.swing.JButton();
-        ButtonRecords = new javax.swing.JButton();
+        ButtonProfile = new javax.swing.JButton();
         ButtonQuit = new javax.swing.JButton();
         GameModePanel = new javax.swing.JPanel();
         ButtonOnePlayer = new javax.swing.JButton();
@@ -279,7 +281,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         TwoPlayersPanel = new javax.swing.JPanel();
         ButtonSamePC = new javax.swing.JButton();
         ButtonLocalNetwork = new javax.swing.JButton();
-        ButtonArrowTowPlayers = new javax.swing.JButton();
+        ButtonArrowTwoPlayers = new javax.swing.JButton();
         LocalNetworkPanel = new javax.swing.JPanel();
         ButtonCreateGame = new javax.swing.JButton();
         ButtonJoinGame = new javax.swing.JButton();
@@ -293,11 +295,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableAvailableServers = new javax.swing.JTable();
-        RecordsPanel = new javax.swing.JPanel();
-        ButtonMyProfile = new javax.swing.JButton();
-        ButtonPlayers = new javax.swing.JButton();
-        ButtonArrowRecords = new javax.swing.JButton();
-        MyProfilePanel = new javax.swing.JPanel();
+        ProfilePanel = new javax.swing.JPanel();
         ButtonArrowMyProfile = new javax.swing.JButton();
         LabelWelcome = new javax.swing.JLabel();
         LabelTotalGames = new javax.swing.JLabel();
@@ -323,6 +321,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonP7 = new javax.swing.JButton();
         ButtonP8 = new javax.swing.JButton();
         ButtonP9 = new javax.swing.JButton();
+        LabelX = new javax.swing.JLabel();
+        LabelO = new javax.swing.JLabel();
         GameResultPanel = new javax.swing.JPanel();
         ButtonPlayAgain = new javax.swing.JButton();
         ButtonMainMenu = new javax.swing.JButton();
@@ -333,7 +333,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.setLayout(new java.awt.CardLayout());
 
-        LoginPanel.setBackground(new java.awt.Color(33, 33, 33));
         LoginPanel.setFocusable(false);
         LoginPanel.setNextFocusableComponent(TextFieldUsername);
 
@@ -348,6 +347,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         LabelPassword.setText("Passowrd");
 
         TextFieldUsername.setBackground(new java.awt.Color(158, 158, 158));
+        TextFieldUsername.setForeground(new java.awt.Color(33, 33, 33));
         TextFieldUsername.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         TextFieldUsername.setMinimumSize(new java.awt.Dimension(80, 50));
         TextFieldUsername.setNextFocusableComponent(PasswordFieldPassword);
@@ -387,6 +387,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
 
         PasswordFieldPassword.setBackground(new java.awt.Color(158, 158, 158));
+        PasswordFieldPassword.setForeground(new java.awt.Color(33, 33, 33));
         PasswordFieldPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         PasswordFieldPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         PasswordFieldPassword.setMinimumSize(new java.awt.Dimension(80, 50));
@@ -432,8 +433,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.add(LoginPanel, "LoginCard");
 
-        MainMenuPanel.setBackground(new java.awt.Color(33, 33, 33));
-
         LabelLogo2.setBackground(new java.awt.Color(255, 255, 153));
         LabelLogo2.setForeground(new java.awt.Color(158, 158, 158));
         LabelLogo2.setText("TicTacToe");
@@ -447,9 +446,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonStartGameMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonStartGameMouseReleased(evt);
-            }
         });
         ButtonStartGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,22 +453,19 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
         });
 
-        ButtonRecords.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonRecords.setText("Records");
-        ButtonRecords.addMouseListener(new java.awt.event.MouseAdapter() {
+        ButtonProfile.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonProfile.setText("Profile");
+        ButtonProfile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonRecordsMouseEntered(evt);
+                ButtonProfileMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                ButtonRecordsMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonRecordsMouseReleased(evt);
+                ButtonProfileMouseExited(evt);
             }
         });
-        ButtonRecords.addActionListener(new java.awt.event.ActionListener() {
+        ButtonProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonRecordsActionPerformed(evt);
+                ButtonProfileActionPerformed(evt);
             }
         });
 
@@ -500,7 +493,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap(492, Short.MAX_VALUE)
                 .addGroup(MainMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonStartGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonQuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LabelLogo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(493, Short.MAX_VALUE))
@@ -513,15 +506,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGap(183, 183, 183)
                 .addComponent(ButtonStartGame)
                 .addGap(64, 64, 64)
-                .addComponent(ButtonRecords)
+                .addComponent(ButtonProfile)
                 .addGap(62, 62, 62)
                 .addComponent(ButtonQuit)
                 .addContainerGap(205, Short.MAX_VALUE))
         );
 
         parentPanel.add(MainMenuPanel, "MainMenuCard");
-
-        GameModePanel.setBackground(new java.awt.Color(33, 33, 33));
 
         ButtonOnePlayer.setForeground(new java.awt.Color(158, 158, 158));
         ButtonOnePlayer.setText("One  Player");
@@ -531,9 +522,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonOnePlayerMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonOnePlayerMouseReleased(evt);
             }
         });
         ButtonOnePlayer.addActionListener(new java.awt.event.ActionListener() {
@@ -551,9 +539,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonTwoPlayersMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonTwoPlayersMouseReleased(evt);
-            }
         });
         ButtonTwoPlayers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -569,9 +554,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonArrowGameModeMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonArrowGameModeMouseReleased(evt);
             }
         });
         ButtonArrowGameMode.addActionListener(new java.awt.event.ActionListener() {
@@ -608,8 +590,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.add(GameModePanel, "GameModeCard");
 
-        TwoPlayersPanel.setBackground(new java.awt.Color(33, 33, 33));
-
         ButtonSamePC.setForeground(new java.awt.Color(158, 158, 158));
         ButtonSamePC.setText("Same  PC ");
         ButtonSamePC.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -618,9 +598,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonSamePCMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonSamePCMouseReleased(evt);
             }
         });
         ButtonSamePC.addActionListener(new java.awt.event.ActionListener() {
@@ -638,9 +615,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonLocalNetworkMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonLocalNetworkMouseReleased(evt);
-            }
         });
         ButtonLocalNetwork.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -648,22 +622,19 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
         });
 
-        ButtonArrowTowPlayers.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowTowPlayers.setText("<<");
-        ButtonArrowTowPlayers.addMouseListener(new java.awt.event.MouseAdapter() {
+        ButtonArrowTwoPlayers.setForeground(new java.awt.Color(158, 158, 158));
+        ButtonArrowTwoPlayers.setText("<<");
+        ButtonArrowTwoPlayers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonArrowTowPlayersMouseEntered(evt);
+                ButtonArrowTwoPlayersMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                ButtonArrowTowPlayersMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonArrowTowPlayersMouseReleased(evt);
+                ButtonArrowTwoPlayersMouseExited(evt);
             }
         });
-        ButtonArrowTowPlayers.addActionListener(new java.awt.event.ActionListener() {
+        ButtonArrowTwoPlayers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonArrowTowPlayersActionPerformed(evt);
+                ButtonArrowTwoPlayersActionPerformed(evt);
             }
         });
 
@@ -673,7 +644,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
                 .addGroup(TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ButtonArrowTowPlayers)
+                    .addComponent(ButtonArrowTwoPlayers)
                     .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -684,7 +655,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         TwoPlayersPanelLayout.setVerticalGroup(
             TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowTowPlayers)
+                .addComponent(ButtonArrowTwoPlayers)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonLocalNetwork)
                 .addGap(65, 65, 65)
@@ -694,8 +665,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.add(TwoPlayersPanel, "TwoPlayersCard");
 
-        LocalNetworkPanel.setBackground(new java.awt.Color(33, 33, 33));
-
         ButtonCreateGame.setForeground(new java.awt.Color(158, 158, 158));
         ButtonCreateGame.setText("Create Game");
         ButtonCreateGame.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -704,9 +673,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonCreateGameMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonCreateGameMouseReleased(evt);
             }
         });
         ButtonCreateGame.addActionListener(new java.awt.event.ActionListener() {
@@ -724,9 +690,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonJoinGameMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonJoinGameMouseReleased(evt);
-            }
         });
         ButtonJoinGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -742,9 +705,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonArrowLocalNetworkMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonArrowLocalNetworkMouseReleased(evt);
             }
         });
         ButtonArrowLocalNetwork.addActionListener(new java.awt.event.ActionListener() {
@@ -825,8 +785,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         parentPanel.add(CreateGamePanel, "CreateGameCard");
 
-        JoinGamePanel.setBackground(new java.awt.Color(33, 33, 33));
-
         ButtonArrowJoinGame.setForeground(new java.awt.Color(158, 158, 158));
         ButtonArrowJoinGame.setText("<<");
         ButtonArrowJoinGame.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -903,10 +861,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addComponent(ButtonArrowJoinGame)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
-                .addContainerGap(146, Short.MAX_VALUE)
+                .addContainerGap(103, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(147, Short.MAX_VALUE))
-            .addGroup(JoinGamePanelLayout.createSequentialGroup()
+                .addContainerGap(104, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JoinGamePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ButtonJoin)
                 .addGap(100, 100, 100)
@@ -917,102 +875,20 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JoinGamePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowJoinGame)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addGap(98, 98, 98)
                 .addGroup(JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonJoin)
                     .addComponent(ButtonSearch))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         parentPanel.add(JoinGamePanel, "JoinGameCard");
 
-        RecordsPanel.setBackground(new java.awt.Color(33, 33, 33));
-
-        ButtonMyProfile.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonMyProfile.setText("My Profile");
-        ButtonMyProfile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonMyProfileMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ButtonMyProfileMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonMyProfileMouseReleased(evt);
-            }
-        });
-        ButtonMyProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonMyProfileActionPerformed(evt);
-            }
-        });
-
-        ButtonPlayers.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonPlayers.setText("Players");
-        ButtonPlayers.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonPlayersMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ButtonPlayersMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonPlayersMouseReleased(evt);
-            }
-        });
-
-        ButtonArrowRecords.setForeground(new java.awt.Color(158, 158, 158));
-        ButtonArrowRecords.setText("<<");
-        ButtonArrowRecords.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonArrowRecordsMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ButtonArrowRecordsMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonArrowRecordsMouseReleased(evt);
-            }
-        });
-        ButtonArrowRecords.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonArrowRecordsActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout RecordsPanelLayout = new javax.swing.GroupLayout(RecordsPanel);
-        RecordsPanel.setLayout(RecordsPanelLayout);
-        RecordsPanelLayout.setHorizontalGroup(
-            RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RecordsPanelLayout.createSequentialGroup()
-                .addGroup(RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(RecordsPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ButtonMyProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ButtonPlayers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(ButtonArrowRecords))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        RecordsPanelLayout.setVerticalGroup(
-            RecordsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RecordsPanelLayout.createSequentialGroup()
-                .addComponent(ButtonArrowRecords)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ButtonMyProfile)
-                .addGap(65, 65, 65)
-                .addComponent(ButtonPlayers)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        parentPanel.add(RecordsPanel, "RecordsCard");
-
-        MyProfilePanel.setBackground(new java.awt.Color(33, 33, 33));
-        MyProfilePanel.addAncestorListener(new javax.swing.event.AncestorListener() {
+        ProfilePanel.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                MyProfilePanelAncestorAdded(evt);
+                ProfilePanelAncestorAdded(evt);
             }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -1028,9 +904,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonArrowMyProfileMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonArrowMyProfileMouseReleased(evt);
             }
         });
         ButtonArrowMyProfile.addActionListener(new java.awt.event.ActionListener() {
@@ -1079,11 +952,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         TableHistory.getTableHeader().setReorderingAllowed(false);
         ScrollPaneHistoryTable.setViewportView(TableHistory);
 
-        javax.swing.GroupLayout MyProfilePanelLayout = new javax.swing.GroupLayout(MyProfilePanel);
-        MyProfilePanel.setLayout(MyProfilePanelLayout);
-        MyProfilePanelLayout.setHorizontalGroup(
-            MyProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MyProfilePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout ProfilePanelLayout = new javax.swing.GroupLayout(ProfilePanel);
+        ProfilePanel.setLayout(ProfilePanelLayout);
+        ProfilePanelLayout.setHorizontalGroup(
+            ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelWins)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1091,38 +964,38 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelLosses)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(MyProfilePanelLayout.createSequentialGroup()
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowMyProfile)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(MyProfilePanelLayout.createSequentialGroup()
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addContainerGap(104, Short.MAX_VALUE)
                 .addComponent(ScrollPaneHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 105, Short.MAX_VALUE))
-            .addGroup(MyProfilePanelLayout.createSequentialGroup()
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelWelcome)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(MyProfilePanelLayout.createSequentialGroup()
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelTotalGames)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MyProfilePanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProfilePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelHistory)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        MyProfilePanelLayout.setVerticalGroup(
-            MyProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MyProfilePanelLayout.createSequentialGroup()
+        ProfilePanelLayout.setVerticalGroup(
+            ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowMyProfile)
                 .addGap(10, 10, 10)
                 .addComponent(LabelWelcome)
                 .addGap(65, 65, 65)
                 .addComponent(LabelTotalGames)
                 .addGap(34, 34, 34)
-                .addGroup(MyProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LabelWins)
-                    .addGroup(MyProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(LabelLosses)
                         .addComponent(LabelDraws)))
                 .addGap(116, 116, 116)
@@ -1132,23 +1005,20 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        parentPanel.add(MyProfilePanel, "MyProfileCard");
-
-        GameBoardPanel.setBackground(new java.awt.Color(33, 33, 33));
+        parentPanel.add(ProfilePanel, "ProfileCard");
 
         LabelPlayer1.setForeground(new java.awt.Color(158, 158, 158));
-        LabelPlayer1.setText("Player 1  : X");
+        LabelPlayer1.setText("Player 1");
 
         LabelPlayer2.setForeground(new java.awt.Color(158, 158, 158));
-        LabelPlayer2.setText("Player 2 : O");
+        LabelPlayer2.setText("Player 2");
 
         LabelCurrentTurn.setForeground(new java.awt.Color(158, 158, 158));
-        LabelCurrentTurn.setText("Current Turn : ");
+        LabelCurrentTurn.setText("Current Turn");
 
         LabelCurrentTurnValue.setForeground(new java.awt.Color(158, 158, 158));
         LabelCurrentTurnValue.setText("X");
 
-        ButtonForfit.setForeground(new java.awt.Color(183, 28, 28));
         ButtonForfit.setText("Forfit");
         ButtonForfit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -1171,11 +1041,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonP1.setBackground(new java.awt.Color(158, 158, 158));
         ButtonP1.setForeground(new java.awt.Color(33, 33, 33));
         ButtonP1.setPreferredSize(new java.awt.Dimension(100, 100));
-        ButtonP1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ButtonP1MouseEntered(evt);
-            }
-        });
         ButtonP1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ButtonP1ActionPerformed(evt);
@@ -1263,23 +1128,36 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         });
         PanelBoard.add(ButtonP9);
 
+        LabelX.setText("X");
+
+        LabelO.setText("O");
+
         javax.swing.GroupLayout GameBoardPanelLayout = new javax.swing.GroupLayout(GameBoardPanel);
         GameBoardPanel.setLayout(GameBoardPanelLayout);
         GameBoardPanelLayout.setHorizontalGroup(
             GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                .addGap(140, 140, 140)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(140, 140, 140)
-                .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(LabelPlayer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                        .addComponent(LabelCurrentTurn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LabelCurrentTurnValue))
-                    .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonForfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(GameBoardPanelLayout.createSequentialGroup()
+                                .addComponent(LabelO)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LabelPlayer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(GameBoardPanelLayout.createSequentialGroup()
+                                .addComponent(LabelX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ButtonForfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(LabelCurrentTurn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(GameBoardPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LabelCurrentTurnValue)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         GameBoardPanelLayout.setVerticalGroup(
             GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1287,22 +1165,24 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                        .addComponent(LabelPlayer1)
-                        .addGap(50, 50, 50)
-                        .addComponent(LabelPlayer2)
-                        .addGap(109, 109, 109)
                         .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(LabelCurrentTurn)
-                            .addComponent(LabelCurrentTurnValue))
-                        .addGap(119, 119, 119)
+                            .addComponent(LabelPlayer1)
+                            .addComponent(LabelX))
+                        .addGap(50, 50, 50)
+                        .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LabelPlayer2)
+                            .addComponent(LabelO))
+                        .addGap(109, 109, 109)
+                        .addComponent(LabelCurrentTurn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(LabelCurrentTurnValue)
+                        .addGap(86, 86, 86)
                         .addComponent(ButtonForfit))
                     .addComponent(PanelBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         parentPanel.add(GameBoardPanel, "GameBoardCard");
-
-        GameResultPanel.setBackground(new java.awt.Color(38, 38, 38));
 
         ButtonPlayAgain.setForeground(new java.awt.Color(158, 158, 158));
         ButtonPlayAgain.setText("Play Again");
@@ -1312,9 +1192,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonPlayAgainMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonPlayAgainMouseReleased(evt);
             }
         });
         ButtonPlayAgain.addActionListener(new java.awt.event.ActionListener() {
@@ -1332,9 +1209,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonMainMenuMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonMainMenuMouseReleased(evt);
-            }
         });
         ButtonMainMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1350,9 +1224,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 ButtonQuitResultMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ButtonQuitResultMouseReleased(evt);
             }
         });
         ButtonQuitResult.addActionListener(new java.awt.event.ActionListener() {
@@ -1413,27 +1284,27 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonStartGameActionPerformed
 
     private void ButtonStartGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseEntered
-        ButtonStartGame.setForeground(new Color(224, 224, 224));
+        ButtonStartGame.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonStartGameMouseEntered
 
     private void ButtonStartGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseExited
-        ButtonStartGame.setForeground(new Color(158, 158, 158));
+        ButtonStartGame.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonStartGameMouseExited
 
-    private void ButtonRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseEntered
-        ButtonRecords.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonRecordsMouseEntered
+    private void ButtonProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonProfileMouseEntered
+        ButtonProfile.setForeground(new Color(121, 134, 203));
+    }//GEN-LAST:event_ButtonProfileMouseEntered
 
-    private void ButtonRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseExited
-        ButtonRecords.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonRecordsMouseExited
+    private void ButtonProfileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonProfileMouseExited
+        ButtonProfile.setForeground(new Color(63, 81, 181));
+    }//GEN-LAST:event_ButtonProfileMouseExited
 
     private void ButtonQuitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitMouseEntered
-        ButtonQuit.setForeground(new Color(224, 224, 224));
+        ButtonQuit.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonQuitMouseEntered
 
     private void ButtonQuitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitMouseExited
-        ButtonQuit.setForeground(new Color(158, 158, 158));
+        ButtonQuit.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonQuitMouseExited
 
     private void ButtonSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSignupActionPerformed
@@ -1441,11 +1312,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonSignupActionPerformed
 
     private void ButtonSignupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseExited
-        ButtonSignup.setForeground(new Color(158, 158, 158));
+        ButtonSignup.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonSignupMouseExited
 
     private void ButtonSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSignupMouseEntered
-        ButtonSignup.setForeground(new Color(224, 224, 224));
+        ButtonSignup.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonSignupMouseEntered
 
     private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLoginActionPerformed
@@ -1453,11 +1324,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonLoginActionPerformed
 
     private void ButtonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseExited
-        ButtonLogin.setForeground(new Color(158, 158, 158));
+        ButtonLogin.setForeground(new Color(46, 125, 50));
     }//GEN-LAST:event_ButtonLoginMouseExited
 
     private void ButtonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLoginMouseEntered
-        ButtonLogin.setForeground(new Color(224, 224, 224));
+        ButtonLogin.setForeground(new Color(67, 160, 71));
     }//GEN-LAST:event_ButtonLoginMouseEntered
 
     private void ButtonQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonQuitActionPerformed
@@ -1473,61 +1344,61 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonArrowGameModeActionPerformed
 
     private void ButtonOnePlayerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonOnePlayerMouseEntered
-        ButtonOnePlayer.setForeground(new Color(224, 224, 224));
+        ButtonOnePlayer.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonOnePlayerMouseEntered
 
     private void ButtonOnePlayerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonOnePlayerMouseExited
-        ButtonOnePlayer.setForeground(new Color(158, 158, 158));
+        ButtonOnePlayer.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonOnePlayerMouseExited
 
     private void ButtonTwoPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersMouseEntered
-        ButtonTwoPlayers.setForeground(new Color(224, 224, 224));
+        ButtonTwoPlayers.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonTwoPlayersMouseEntered
 
     private void ButtonTwoPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersMouseExited
-        ButtonTwoPlayers.setForeground(new Color(158, 158, 158));
+        ButtonTwoPlayers.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonTwoPlayersMouseExited
 
     private void ButtonArrowGameModeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeMouseEntered
-        ButtonArrowGameMode.setForeground(new Color(224, 224, 224));
+        ButtonArrowGameMode.setForeground(new Color(229, 57, 53));
     }//GEN-LAST:event_ButtonArrowGameModeMouseEntered
 
     private void ButtonArrowGameModeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeMouseExited
-        ButtonArrowGameMode.setForeground(new Color(158, 158, 158));
+        ButtonArrowGameMode.setForeground(new Color(198, 40, 40));
     }//GEN-LAST:event_ButtonArrowGameModeMouseExited
 
     private void ButtonLocalNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkActionPerformed
         cards.show(parentPanel, "LocalNetworkCard");
     }//GEN-LAST:event_ButtonLocalNetworkActionPerformed
 
-    private void ButtonArrowTowPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersActionPerformed
+    private void ButtonArrowTwoPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowTwoPlayersActionPerformed
         cards.show(parentPanel, "GameModeCard");
-    }//GEN-LAST:event_ButtonArrowTowPlayersActionPerformed
+    }//GEN-LAST:event_ButtonArrowTwoPlayersActionPerformed
 
     private void ButtonSamePCMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSamePCMouseEntered
-        ButtonSamePC.setForeground(new Color(224, 224, 224));
+        ButtonSamePC.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonSamePCMouseEntered
 
     private void ButtonSamePCMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSamePCMouseExited
-        ButtonSamePC.setForeground(new Color(158, 158, 158));
+        ButtonSamePC.setForeground(new Color(63, 81, 181));
 
     }//GEN-LAST:event_ButtonSamePCMouseExited
 
-    private void ButtonArrowTowPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersMouseEntered
-        ButtonArrowTowPlayers.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonArrowTowPlayersMouseEntered
+    private void ButtonArrowTwoPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTwoPlayersMouseEntered
+        ButtonArrowTwoPlayers.setForeground(new Color(229, 57, 53));
+    }//GEN-LAST:event_ButtonArrowTwoPlayersMouseEntered
 
-    private void ButtonArrowTowPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersMouseExited
-        ButtonArrowTowPlayers.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonArrowTowPlayersMouseExited
+    private void ButtonArrowTwoPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTwoPlayersMouseExited
+        ButtonArrowTwoPlayers.setForeground(new Color(198, 40, 40));
+    }//GEN-LAST:event_ButtonArrowTwoPlayersMouseExited
 
     private void ButtonLocalNetworkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkMouseEntered
-        ButtonLocalNetwork.setForeground(new Color(224, 224, 224));
+        ButtonLocalNetwork.setForeground(new Color(121, 134, 203));
 
     }//GEN-LAST:event_ButtonLocalNetworkMouseEntered
 
     private void ButtonLocalNetworkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkMouseExited
-        ButtonLocalNetwork.setForeground(new Color(158, 158, 158));
+        ButtonLocalNetwork.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonLocalNetworkMouseExited
 
     private void ButtonJoinGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonJoinGameActionPerformed
@@ -1535,174 +1406,95 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonJoinGameActionPerformed
 
     private void ButtonCreateGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCreateGameMouseEntered
-        ButtonCreateGame.setForeground(new Color(224, 224, 224));
+        ButtonCreateGame.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonCreateGameMouseEntered
 
     private void ButtonCreateGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCreateGameMouseExited
-        ButtonCreateGame.setForeground(new Color(158, 158, 158));
+        ButtonCreateGame.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonCreateGameMouseExited
 
     private void ButtonArrowLocalNetworkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkMouseEntered
-        ButtonArrowLocalNetwork.setForeground(new Color(224, 224, 224));
+        ButtonArrowLocalNetwork.setForeground(new Color(229, 57, 53));
     }//GEN-LAST:event_ButtonArrowLocalNetworkMouseEntered
 
     private void ButtonArrowLocalNetworkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkMouseExited
-        ButtonArrowLocalNetwork.setForeground(new Color(158, 158, 158));
+        ButtonArrowLocalNetwork.setForeground(new Color(198, 40, 40));
     }//GEN-LAST:event_ButtonArrowLocalNetworkMouseExited
 
     private void ButtonJoinGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinGameMouseEntered
-        ButtonJoinGame.setForeground(new Color(224, 224, 224));
+        ButtonJoinGame.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonJoinGameMouseEntered
 
     private void ButtonJoinGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinGameMouseExited
-        ButtonJoinGame.setForeground(new Color(158, 158, 158));
+        ButtonJoinGame.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonJoinGameMouseExited
 
     private void ButtonArrowLocalNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkActionPerformed
         cards.show(parentPanel, "TwoPlayersCard");
     }//GEN-LAST:event_ButtonArrowLocalNetworkActionPerformed
 
-    private void ButtonRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRecordsActionPerformed
-        cards.show(parentPanel, "RecordsCard");
-    }//GEN-LAST:event_ButtonRecordsActionPerformed
-
-    private void ButtonMyProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMyProfileActionPerformed
-        cards.show(parentPanel, "MyProfileCard");
-    }//GEN-LAST:event_ButtonMyProfileActionPerformed
-
-    private void ButtonArrowRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsMouseEntered
-        ButtonArrowRecords.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonArrowRecordsMouseEntered
-
-    private void ButtonArrowRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsMouseExited
-        ButtonArrowRecords.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonArrowRecordsMouseExited
-
-    private void ButtonMyProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMyProfileMouseEntered
-        ButtonMyProfile.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonMyProfileMouseEntered
-
-    private void ButtonMyProfileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMyProfileMouseExited
-        ButtonMyProfile.setForeground(new Color(158, 158, 158));
-
-    }//GEN-LAST:event_ButtonMyProfileMouseExited
-
-    private void ButtonPlayersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayersMouseEntered
-        ButtonPlayers.setForeground(new Color(224, 224, 224));
-    }//GEN-LAST:event_ButtonPlayersMouseEntered
-
-    private void ButtonPlayersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayersMouseExited
-        ButtonPlayers.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonPlayersMouseExited
-
-    private void ButtonArrowRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsActionPerformed
-        cards.show(parentPanel, "MainMenuCard");
-    }//GEN-LAST:event_ButtonArrowRecordsActionPerformed
-
-    private void ButtonLocalNetworkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkMouseReleased
-        ButtonLocalNetwork.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonLocalNetworkMouseReleased
-
-    private void ButtonSamePCMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSamePCMouseReleased
-        ButtonSamePC.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonSamePCMouseReleased
-
-    private void ButtonArrowTowPlayersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowTowPlayersMouseReleased
-        ButtonArrowTowPlayers.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonArrowTowPlayersMouseReleased
-
-    private void ButtonCreateGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonCreateGameMouseReleased
-        ButtonCreateGame.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonCreateGameMouseReleased
-
-    private void ButtonJoinGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinGameMouseReleased
-        ButtonJoinGame.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonJoinGameMouseReleased
-
-    private void ButtonArrowLocalNetworkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowLocalNetworkMouseReleased
-        ButtonArrowLocalNetwork.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonArrowLocalNetworkMouseReleased
-
-    private void ButtonArrowRecordsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowRecordsMouseReleased
-        ButtonArrowRecords.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonArrowRecordsMouseReleased
-
-    private void ButtonMyProfileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMyProfileMouseReleased
-        ButtonMyProfile.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonMyProfileMouseReleased
-
-    private void ButtonPlayersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayersMouseReleased
-        ButtonPlayers.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonPlayersMouseReleased
-
-    private void ButtonArrowGameModeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowGameModeMouseReleased
-        ButtonArrowGameMode.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonArrowGameModeMouseReleased
-
-    private void ButtonOnePlayerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonOnePlayerMouseReleased
-        ButtonOnePlayer.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonOnePlayerMouseReleased
-
-    private void ButtonTwoPlayersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonTwoPlayersMouseReleased
-        ButtonTwoPlayers.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonTwoPlayersMouseReleased
-
-    private void ButtonStartGameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonStartGameMouseReleased
-        ButtonStartGame.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonStartGameMouseReleased
-
-    private void ButtonRecordsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordsMouseReleased
-        ButtonRecords.setForeground(new Color(158, 158, 158));
-    }//GEN-LAST:event_ButtonRecordsMouseReleased
+    private void ButtonProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonProfileActionPerformed
+        cards.show(parentPanel, "ProfileCard");
+    }//GEN-LAST:event_ButtonProfileActionPerformed
 
     private void ButtonArrowMyProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowMyProfileMouseEntered
-        ButtonArrowMyProfile.setForeground(new Color(224, 224, 224));
+        ButtonArrowMyProfile.setForeground(new Color(229, 57, 53));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowMyProfileMouseEntered
 
     private void ButtonArrowMyProfileMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowMyProfileMouseExited
-        ButtonArrowMyProfile.setForeground(new Color(158, 158, 158));
+        ButtonArrowMyProfile.setForeground(new Color(198, 40, 40));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowMyProfileMouseExited
 
-    private void ButtonArrowMyProfileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowMyProfileMouseReleased
-        ButtonArrowMyProfile.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonArrowMyProfileMouseReleased
-
     private void ButtonArrowMyProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowMyProfileActionPerformed
-        cards.show(parentPanel, "RecordsCard");
+        cards.show(parentPanel, "MainMenuCard");
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonArrowMyProfileActionPerformed
 
-    private void MyProfilePanelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_MyProfilePanelAncestorAdded
+    private void ProfilePanelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_ProfilePanelAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_MyProfilePanelAncestorAdded
+    }//GEN-LAST:event_ProfilePanelAncestorAdded
 
     private void ButtonP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP2ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP2.getText().isEmpty()) {
-            ButtonP2.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP2.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP2.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP2.setText(currentTurn);
             gameLogic.checkWin();
-
         }
     }//GEN-LAST:event_ButtonP2ActionPerformed
 
     private void ButtonP4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP4ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP4.getText().isEmpty()) {
-            ButtonP4.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP4.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP4.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP4.setText(currentTurn);
             gameLogic.checkWin();
-
         }
     }//GEN-LAST:event_ButtonP4ActionPerformed
 
     private void ButtonP6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP6ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP6.getText().isEmpty()) {
-            ButtonP6.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP6.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP6.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP6.setText(currentTurn);
             gameLogic.checkWin();
-
         }
     }//GEN-LAST:event_ButtonP6ActionPerformed
 
@@ -1712,7 +1504,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonForfitMouseEntered
 
     private void ButtonForfitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonForfitMouseExited
-        ButtonForfit.setForeground(new Color(183, 28, 28));
+        ButtonForfit.setForeground(new Color(198, 40, 40));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonForfitMouseExited
 
@@ -1727,19 +1519,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonArrowJoinGameActionPerformed
 
     private void ButtonPlayAgainMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayAgainMouseEntered
-        ButtonPlayAgain.setForeground(new Color(224, 224, 224));
+        ButtonPlayAgain.setForeground(new Color(67, 160, 70));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonPlayAgainMouseEntered
 
     private void ButtonPlayAgainMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayAgainMouseExited
-        ButtonPlayAgain.setForeground(new Color(158, 158, 158));
+        ButtonPlayAgain.setForeground(new Color(46, 125, 50));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonPlayAgainMouseExited
-
-    private void ButtonPlayAgainMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonPlayAgainMouseReleased
-        ButtonPlayAgain.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonPlayAgainMouseReleased
 
     private void ButtonPlayAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonPlayAgainActionPerformed
         // TODO add your handling code here:
@@ -1748,19 +1535,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonPlayAgainActionPerformed
 
     private void ButtonMainMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMainMenuMouseEntered
-        ButtonMainMenu.setForeground(new Color(224, 224, 224));
+        ButtonMainMenu.setForeground(new Color(121, 134, 203));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonMainMenuMouseEntered
 
     private void ButtonMainMenuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMainMenuMouseExited
-        ButtonMainMenu.setForeground(new Color(158, 158, 158));
+        ButtonMainMenu.setForeground(new Color(63, 81, 181));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonMainMenuMouseExited
-
-    private void ButtonMainMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMainMenuMouseReleased
-        ButtonMainMenu.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonMainMenuMouseReleased
 
     private void ButtonMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMainMenuActionPerformed
         cards.show(parentPanel, "MainMenuCard");
@@ -1768,19 +1550,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonMainMenuActionPerformed
 
     private void ButtonQuitResultMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitResultMouseEntered
-        ButtonQuitResult.setForeground(new Color(224, 224, 224));
+        ButtonQuitResult.setForeground(new Color(229, 57, 53));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonQuitResultMouseEntered
 
     private void ButtonQuitResultMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitResultMouseExited
-        ButtonQuitResult.setForeground(new Color(158, 158, 158));
+        ButtonQuitResult.setForeground(new Color(198, 40, 40));
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonQuitResultMouseExited
-
-    private void ButtonQuitResultMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonQuitResultMouseReleased
-        ButtonQuitResult.setForeground(new Color(158, 158, 158));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonQuitResultMouseReleased
 
     private void ButtonQuitResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonQuitResultActionPerformed
         System.exit(0);
@@ -1789,19 +1566,29 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonP7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP7ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP7.getText().isEmpty()) {
-            ButtonP7.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP7.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP7.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP7.setText(currentTurn);
             gameLogic.checkWin();
-
         }
     }//GEN-LAST:event_ButtonP7ActionPerformed
 
     private void ButtonP5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP5ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP5.getText().isEmpty()) {
-            ButtonP5.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP5.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP5.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP5.setText(currentTurn);
             gameLogic.checkWin();
-
         }
     }//GEN-LAST:event_ButtonP5ActionPerformed
 
@@ -1812,21 +1599,26 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP3ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP3.getText().isEmpty()) {
-            ButtonP3.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP3.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP3.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP3.setText(currentTurn);
             gameLogic.checkWin();
-
         }
     }//GEN-LAST:event_ButtonP3ActionPerformed
 
     private void ButtonArrowCreateGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowCreateGameMouseEntered
         // TODO add your handling code here:
-        ButtonArrowCreateGame.setForeground(new Color(224, 224, 224));
+        ButtonArrowCreateGame.setForeground(new Color(229, 57, 53));
     }//GEN-LAST:event_ButtonArrowCreateGameMouseEntered
 
     private void ButtonArrowCreateGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowCreateGameMouseExited
         // TODO add your handling code here:
-        ButtonArrowCreateGame.setForeground(new Color(158, 158, 158));
+        ButtonArrowCreateGame.setForeground(new Color(198, 40, 40));
     }//GEN-LAST:event_ButtonArrowCreateGameMouseExited
 
     private void ButtonArrowCreateGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowCreateGameActionPerformed
@@ -1847,42 +1639,42 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonJoinMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinMouseEntered
         // TODO add your handling code here:
-        ButtonJoin.setForeground(new Color(224, 224, 224));
+        ButtonJoin.setForeground(new Color(67, 160, 71));
     }//GEN-LAST:event_ButtonJoinMouseEntered
 
     private void ButtonJoinMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonJoinMouseExited
         // TODO add your handling code here:
-        ButtonJoin.setForeground(new Color(158, 158, 158));
+        ButtonJoin.setForeground(new Color(46, 125, 50));
     }//GEN-LAST:event_ButtonJoinMouseExited
 
     private void ButtonSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMouseEntered
         // TODO add your handling code here:
-        ButtonSearch.setForeground(new Color(224, 224, 224));
+        ButtonSearch.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonSearchMouseEntered
 
     private void ButtonSearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMouseExited
         // TODO add your handling code here:
-        ButtonSearch.setForeground(new Color(158, 158, 158));
+        ButtonSearch.setForeground(new Color(63, 81, 181));
     }//GEN-LAST:event_ButtonSearchMouseExited
 
     private void ButtonArrowJoinGameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowJoinGameMouseEntered
         // TODO add your handling code here:
-        ButtonArrowJoinGame.setForeground(new Color(224, 224, 224));
+        ButtonArrowJoinGame.setForeground(new Color(229, 57, 53));
     }//GEN-LAST:event_ButtonArrowJoinGameMouseEntered
 
     private void ButtonArrowJoinGameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonArrowJoinGameMouseExited
         // TODO add your handling code here:
-        ButtonArrowJoinGame.setForeground(new Color(158, 158, 158));
+        ButtonArrowJoinGame.setForeground(new Color(198, 40, 40));
     }//GEN-LAST:event_ButtonArrowJoinGameMouseExited
 
     private void ButtonSearchMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMousePressed
         // TODO add your handling code here:
-        ButtonSearch.setForeground(new Color(255, 255, 255));
+        ButtonSearch.setForeground(new Color(159, 168, 218));
     }//GEN-LAST:event_ButtonSearchMousePressed
 
     private void ButtonSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonSearchMouseReleased
         // TODO add your handling code here:
-        ButtonSearch.setForeground(new Color(224, 224, 224));
+        ButtonSearch.setForeground(new Color(121, 134, 203));
     }//GEN-LAST:event_ButtonSearchMouseReleased
 
     private void ButtonJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonJoinActionPerformed
@@ -1917,27 +1709,40 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private void ButtonP9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP9ActionPerformed
         // TODO add your handling code here:
         if (ButtonP9.getText().isEmpty()) {
-            ButtonP9.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP9.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP9.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP9.setText(currentTurn);
             gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP9ActionPerformed
 
-    private void ButtonP1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonP1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonP1MouseEntered
-
     private void ButtonP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP1ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP1.getText().isEmpty()) {
-            ButtonP1.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP1.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP1.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP1.setText(currentTurn);
             gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP1ActionPerformed
 
     private void ButtonP8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP8ActionPerformed
         // TODO add your handling code here:
+        currentTurn = gameLogic.checkPlayerTurn();
         if (ButtonP8.getText().isEmpty()) {
-            ButtonP8.setText(gameLogic.checkPlayerTurn());
+            if (currentTurn.equals("X")) {
+                ButtonP8.setForeground(new Color(63, 81, 181));
+            } else {
+                ButtonP8.setForeground(new Color(198, 40, 40));
+            }
+            ButtonP8.setText(currentTurn);
             gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP8ActionPerformed
@@ -1983,8 +1788,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JButton ButtonArrowJoinGame;
     private javax.swing.JButton ButtonArrowLocalNetwork;
     private javax.swing.JButton ButtonArrowMyProfile;
-    private javax.swing.JButton ButtonArrowRecords;
-    private javax.swing.JButton ButtonArrowTowPlayers;
+    private javax.swing.JButton ButtonArrowTwoPlayers;
     private javax.swing.JButton ButtonCreateGame;
     private javax.swing.JButton ButtonForfit;
     private javax.swing.JButton ButtonJoin;
@@ -1992,7 +1796,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JButton ButtonLocalNetwork;
     private javax.swing.JButton ButtonLogin;
     private javax.swing.JButton ButtonMainMenu;
-    private javax.swing.JButton ButtonMyProfile;
     private javax.swing.JButton ButtonOnePlayer;
     public static javax.swing.JButton ButtonP1;
     public static javax.swing.JButton ButtonP2;
@@ -2004,10 +1807,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     public static javax.swing.JButton ButtonP8;
     public static javax.swing.JButton ButtonP9;
     private javax.swing.JButton ButtonPlayAgain;
-    private javax.swing.JButton ButtonPlayers;
+    private javax.swing.JButton ButtonProfile;
     private javax.swing.JButton ButtonQuit;
     private javax.swing.JButton ButtonQuitResult;
-    private javax.swing.JButton ButtonRecords;
     private javax.swing.JButton ButtonSamePC;
     public static javax.swing.JButton ButtonSearch;
     private javax.swing.JButton ButtonSignup;
@@ -2025,6 +1827,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel LabelLogo;
     private javax.swing.JLabel LabelLogo2;
     private javax.swing.JLabel LabelLosses;
+    private javax.swing.JLabel LabelO;
     private javax.swing.JLabel LabelPassword;
     private javax.swing.JLabel LabelPlayer1;
     private javax.swing.JLabel LabelPlayer2;
@@ -2034,13 +1837,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel LabelWaitingOpponent;
     private javax.swing.JLabel LabelWelcome;
     private javax.swing.JLabel LabelWins;
+    private javax.swing.JLabel LabelX;
     private javax.swing.JPanel LocalNetworkPanel;
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JPanel MainMenuPanel;
-    private javax.swing.JPanel MyProfilePanel;
     private javax.swing.JPanel PanelBoard;
     private javax.swing.JPasswordField PasswordFieldPassword;
-    private javax.swing.JPanel RecordsPanel;
+    private javax.swing.JPanel ProfilePanel;
     private javax.swing.JScrollPane ScrollPaneHistoryTable;
     public static javax.swing.JTable TableAvailableServers;
     private javax.swing.JTable TableHistory;

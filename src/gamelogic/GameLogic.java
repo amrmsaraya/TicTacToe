@@ -2,6 +2,7 @@ package gamelogic;
 
 import java.util.Random;
 import gui.TicTacToeFrame;
+import java.awt.Color;
 
 /*cpuplay */
 public class GameLogic {
@@ -15,14 +16,14 @@ public class GameLogic {
 
     public String checkPlayerTurn() {
         if (playerTurn.equals("X")) {
-            //System.out.println("playerxturn");
             playerTurn = "O";
             TicTacToeFrame.LabelCurrentTurnValue.setText(playerTurn);
+            TicTacToeFrame.LabelCurrentTurnValue.setForeground(new Color(198, 40, 40));
             return "X";
         } else if (playerTurn.equals("O")) {
-            //System.out.println("player o turn");
             playerTurn = "X";
             TicTacToeFrame.LabelCurrentTurnValue.setText(playerTurn);
+            TicTacToeFrame.LabelCurrentTurnValue.setForeground(new Color(63, 81, 181));
             return "O";
         }
         return " ";
@@ -112,6 +113,7 @@ public class GameLogic {
         TicTacToeFrame.ButtonP8.setText("");
         TicTacToeFrame.ButtonP9.setText("");
         counter = 0;
+        checkPlayerTurn();
     }
 
 }
