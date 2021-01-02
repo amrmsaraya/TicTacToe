@@ -1438,7 +1438,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             .addGroup(GameBoardPanelLayout.createSequentialGroup()
                 .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(PanelBoard, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-                .addGap(70, 70, 70)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
         );
@@ -1523,31 +1523,30 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         GameResultPanelLayout.setHorizontalGroup(
             GameResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameResultPanelLayout.createSequentialGroup()
-                .addGroup(GameResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(GameResultPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LabelTmp))
-                    .addGroup(GameResultPanelLayout.createSequentialGroup()
-                        .addContainerGap(187, Short.MAX_VALUE)
-                        .addComponent(ButtonPlayAgain)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
-                        .addComponent(ButtonMainMenu)))
+                .addContainerGap(187, Short.MAX_VALUE)
+                .addComponent(ButtonPlayAgain)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addComponent(ButtonMainMenu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
                 .addComponent(ButtonQuitResult)
                 .addContainerGap(187, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameResultPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LabelTmp)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(GameResultPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelVideo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         GameResultPanelLayout.setVerticalGroup(
             GameResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameResultPanelLayout.createSequentialGroup()
-                .addGap(141, 141, 141)
+                .addGap(117, 117, 117)
                 .addComponent(LabelTmp)
-                .addGap(52, 52, 52)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelVideo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(75, 75, 75)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(GameResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonPlayAgain)
                     .addComponent(ButtonMainMenu)
@@ -2200,8 +2199,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                                 cards.show(parentPanel, "GameResultCard");
                                 if (infoStatusData[2].equals(LoggedUsername)) {
                                     LabelTmp.setText("Congratulations " + LoggedUsername + ", You Won ^_^");
+                                    getVideo("src/gui/resources/winnervideo.mp4");
                                 } else if (infoStatusData[2].equals(opponent)) {
                                     LabelTmp.setText("Sorry " + LoggedUsername + ", You Lost :(");
+                                    getVideo("src/gui/resources/loservideo.mp4");
                                 } else if (infoStatusData[2].equals("draw")) {
                                     LabelTmp.setText("Game ended with a Draw !");
                                 }
@@ -2364,14 +2365,17 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                                     }
                                     // Show Result
                                 } else if (infoStatusData[0].equals("winner") && infoStatusData[1].equals(gameId)) {
-                                    cards.show(parentPanel, "GameResultCard");
+                                    
                                     if (infoStatusData[2].equals(LoggedUsername)) {
                                         LabelTmp.setText("Congratulations " + LoggedUsername + ", You Won ^_^");
+                                        getVideo("src/gui/resources/winnervideo.mp4");
                                     } else if (infoStatusData[2].equals(opponent)) {
                                         LabelTmp.setText("Sorry " + LoggedUsername + ", You Lost :(");
+                                        getVideo("src/gui/resources/loservideo.mp4");
                                     } else if (infoStatusData[2].equals("draw")) {
                                         LabelTmp.setText("Game ended with a Draw !");
                                     }
+                                    cards.show(parentPanel, "GameResultCard");
                                     isGameEnded = 1;
                                 }
                             }

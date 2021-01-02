@@ -1098,7 +1098,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace pref="75" max="32767" attributes="0"/>
                       <Component id="PanelBoard" pref="683" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace pref="70" max="32767" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                   </Group>
@@ -1467,24 +1467,21 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="LabelTmp" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace pref="187" max="32767" attributes="0"/>
-                              <Component id="ButtonPlayAgain" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="187" max="32767" attributes="0"/>
-                              <Component id="ButtonMainMenu" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <EmptySpace pref="187" max="32767" attributes="0"/>
+                      <Component id="ButtonPlayAgain" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="187" max="32767" attributes="0"/>
+                      <Component id="ButtonMainMenu" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="188" max="32767" attributes="0"/>
                       <Component id="ButtonQuitResult" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="187" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="LabelTmp" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="PanelVideo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -1493,11 +1490,11 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                       <Component id="LabelTmp" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="PanelVideo" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                      <EmptySpace pref="95" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ButtonPlayAgain" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ButtonMainMenu" alignment="3" min="-2" max="-2" attributes="0"/>
