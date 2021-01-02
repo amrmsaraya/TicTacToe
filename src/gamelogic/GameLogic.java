@@ -62,119 +62,119 @@ public class GameLogic {
         fillArray();
         counter++;
         if (gameBoard[0][0].equals("X") && gameBoard[0][0].equals(gameBoard[0][1]) && gameBoard[0][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[1][0].equals("X") && gameBoard[1][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[1][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[2][0].equals("X") && gameBoard[2][0].equals(gameBoard[2][1]) && gameBoard[2][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][0].equals("X") && gameBoard[0][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[2][0].equals("X") && gameBoard[2][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][0].equals("X") && gameBoard[0][0].equals(gameBoard[1][0]) && gameBoard[0][0].equals(gameBoard[2][0])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][1].equals("X") && gameBoard[0][1].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][1])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][2].equals("X") && gameBoard[0][2].equals(gameBoard[1][2]) && gameBoard[1][2].equals(gameBoard[2][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][0].equals("O") && gameBoard[0][0].equals(gameBoard[0][1]) && gameBoard[0][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[1][0].equals("O") && gameBoard[1][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[1][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[2][0].equals("O") && gameBoard[2][0].equals(gameBoard[2][1]) && gameBoard[2][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][0].equals("O") && gameBoard[0][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[2][0].equals("O") && gameBoard[2][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][0].equals("O") && gameBoard[0][0].equals(gameBoard[1][0]) && gameBoard[0][0].equals(gameBoard[2][0])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][1].equals("O") && gameBoard[0][1].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][1])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][2].equals("O") && gameBoard[0][2].equals(gameBoard[1][2]) && gameBoard[1][2].equals(gameBoard[2][2])) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (counter >= 9) {
-            if (mode.equals("samePC")) {
+            if (mode.equals("samepc")) {
                 gameDraw();
                 return "draw";
             } else if (mode.equals("network")) {

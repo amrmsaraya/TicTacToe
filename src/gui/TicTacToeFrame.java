@@ -9,18 +9,26 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 import gamelogic.GameLogic;
+import java.awt.Dimension;
 import java.net.Socket;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import media.Soundtrack;
+import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 public class TicTacToeFrame extends javax.swing.JFrame {
 
     public static Font FONT_ZORQUE;
     public static CardLayout cards;
-    DefaultTableModel model;
+    DefaultTableModel tableModel;
+    String infoStatus = "";
+    String[] infoStatusData = null;
 
     String gameMode;
     String myMark;
@@ -32,6 +40,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     int isGameJoined;
     int isConnected;
     int isGameEnded;
+    int isTableClicked;
+
+    int profile;
+
     Socket s;
     InputStreamReader isr;
     BufferedReader br;
@@ -66,6 +78,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         initComponents();
 
         isConnected = 0;
+        isTableClicked = 0;
         th = new Thread(new Runnable() {
             public void run() {
                 while (true) {
@@ -81,6 +94,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                             isConnected = 0;
                         }
                     }
+
                 }
             }
         });
@@ -95,6 +109,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         isGameCreated = 0;
         isGameJoined = 0;
         isGameEnded = 0;
+
+        profile = 0;
+
         soundtrack = new Soundtrack();
         soundtrack.backgroundMusic();
 
@@ -234,9 +251,19 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             LabelHistory.setFont(FONT_ZORQUE.deriveFont(48f));
             TableHistory.getTableHeader().setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_32));
             TableHistory.getTableHeader().setForeground(new Color(33, 33, 33));
+            DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+            cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+            cellRenderer.setBackground(new Color(33, 33, 33));
+            cellRenderer.setForeground(new Color(158, 158, 158));
+            TableHistory.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
+            TableHistory.getColumnModel().getColumn(1).setCellRenderer(cellRenderer);
+            TableHistory.getColumnModel().getColumn(2).setCellRenderer(cellRenderer);
+            TableHistory.getColumnModel().getColumn(3).setCellRenderer(cellRenderer);
+            TableHistory.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
             ButtonArrowMyProfile.setOpaque(false);
             ButtonArrowMyProfile.setContentAreaFilled(false);
             ButtonArrowMyProfile.setBorderPainted(false);
+            tableModel = (DefaultTableModel) TableHistory.getModel();
 
             // Game Board
             GameBoardPanel.setBackground(new Color(33, 33, 33));
@@ -267,12 +294,19 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             LabelX.setForeground(new Color(63, 81, 181));
             LabelO.setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_72));
             LabelO.setForeground(new Color(198, 40, 40));
+            LabelRecord.setForeground(new Color(158, 158, 158));
+            LabelRecord.setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_72));
+            ButtonRecord.setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_72));
+            ButtonRecord.setForeground(new Color(79, 79, 79));
             LabelCurrentTurn.setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_72));
             LabelCurrentTurnValue.setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_72));
             LabelCurrentTurnValue.setForeground(new Color(63, 81, 181));
             ButtonForfit.setOpaque(false);
             ButtonForfit.setContentAreaFilled(false);
             ButtonForfit.setBorderPainted(false);
+            ButtonRecord.setOpaque(false);
+            ButtonRecord.setContentAreaFilled(false);
+            ButtonRecord.setBorderPainted(false);
 
             // Join Game
             JoinGamePanel.setBackground(new Color(33, 33, 33));
@@ -293,7 +327,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             LabelAvailableGames.setForeground(new Color(198, 40, 40));
             ButtonArrowJoinGame.setFont(FONT_ZORQUE.deriveFont(FONT_SIZE_100));
             ButtonArrowJoinGame.setForeground(new Color(198, 40, 40));
-
             ButtonJoin.setOpaque(false);
             ButtonJoin.setContentAreaFilled(false);
             ButtonJoin.setBorderPainted(false);
@@ -380,14 +413,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ListAvailableGames = new javax.swing.JList<>();
         ProfilePanel = new javax.swing.JPanel();
         ButtonArrowMyProfile = new javax.swing.JButton();
-        ScrollPaneHistoryTable = new javax.swing.JScrollPane();
-        TableHistory = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         LabelWins = new javax.swing.JLabel();
         LabelDraws = new javax.swing.JLabel();
         LabelWelcome = new javax.swing.JLabel();
         LabelTotalGames = new javax.swing.JLabel();
         LabelLosses = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableHistory = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         LabelHistory = new javax.swing.JLabel();
         GameBoardPanel = new javax.swing.JPanel();
@@ -409,6 +442,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         LabelX = new javax.swing.JLabel();
         LabelO = new javax.swing.JLabel();
         LabelPlayer1 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        LabelRecord = new javax.swing.JLabel();
+        ButtonRecord = new javax.swing.JButton();
         GameResultPanel = new javax.swing.JPanel();
         ButtonPlayAgain = new javax.swing.JButton();
         ButtonMainMenu = new javax.swing.JButton();
@@ -700,11 +736,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         GameModePanelLayout.setHorizontalGroup(
             GameModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameModePanelLayout.createSequentialGroup()
-                .addContainerGap(391, Short.MAX_VALUE)
+                .addContainerGap(423, Short.MAX_VALUE)
                 .addGroup(GameModePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonTwoPlayers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonOnePlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(390, Short.MAX_VALUE))
+                .addContainerGap(422, Short.MAX_VALUE))
             .addGroup(GameModePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowGameMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -780,11 +816,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGroup(TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ButtonArrowTwoPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(TwoPlayersPanelLayout.createSequentialGroup()
-                        .addContainerGap(382, Short.MAX_VALUE)
+                        .addContainerGap(414, Short.MAX_VALUE)
                         .addGroup(TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ButtonLocalNetwork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ButtonSamePC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(382, Short.MAX_VALUE))
+                .addContainerGap(414, Short.MAX_VALUE))
         );
         TwoPlayersPanelLayout.setVerticalGroup(
             TwoPlayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -983,9 +1019,9 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGroup(JoinGamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ButtonArrowJoinGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(JoinGamePanelLayout.createSequentialGroup()
-                        .addContainerGap(48, Short.MAX_VALUE)
+                        .addContainerGap(80, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JoinGamePanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1031,28 +1067,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             }
         });
 
-        TableHistory.setBackground(new java.awt.Color(33, 33, 33));
-        TableHistory.setForeground(new java.awt.Color(158, 158, 158));
-        TableHistory.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Opponent", "Game ID", "Result", "Record"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableHistory.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TableHistory.getTableHeader().setReorderingAllowed(false);
-        ScrollPaneHistoryTable.setViewportView(TableHistory);
-
         jPanel7.setOpaque(false);
 
         LabelWins.setForeground(new java.awt.Color(158, 158, 158));
@@ -1069,6 +1083,88 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         LabelLosses.setForeground(new java.awt.Color(158, 158, 158));
         LabelLosses.setText("Losses : 3");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LabelWelcome)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(LabelTotalGames)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(LabelWins)
+                        .addGap(130, 130, 130)
+                        .addComponent(LabelDraws)
+                        .addGap(110, 110, 110)
+                        .addComponent(LabelLosses)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LabelWelcome)
+                .addGap(39, 39, 39)
+                .addComponent(LabelTotalGames)
+                .addGap(60, 60, 60)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LabelWins)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LabelLosses)
+                        .addComponent(LabelDraws)))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setOpaque(false);
+
+        TableHistory.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        TableHistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Opponent", "Game ID", "Date", "Winner", "Record"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TableHistory.setOpaque(false);
+        TableHistory.setPreferredSize(new java.awt.Dimension(375, 300));
+        TableHistory.setRowHeight(50);
+        TableHistory.getTableHeader().setReorderingAllowed(false);
+        TableHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableHistoryMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TableHistory);
+        if (TableHistory.getColumnModel().getColumnCount() > 0) {
+            TableHistory.getColumnModel().getColumn(0).setResizable(false);
+            TableHistory.getColumnModel().getColumn(1).setResizable(false);
+            TableHistory.getColumnModel().getColumn(2).setResizable(false);
+            TableHistory.getColumnModel().getColumn(3).setResizable(false);
+            TableHistory.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jPanel8.setOpaque(false);
 
@@ -1092,62 +1188,23 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(LabelWelcome)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(LabelTotalGames)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(LabelWins)
-                        .addGap(130, 130, 130)
-                        .addComponent(LabelDraws)
-                        .addGap(110, 110, 110)
-                        .addComponent(LabelLosses)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LabelWelcome)
-                .addGap(39, 39, 39)
-                .addComponent(LabelTotalGames)
-                .addGap(60, 60, 60)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelWins)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(LabelLosses)
-                        .addComponent(LabelDraws)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout ProfilePanelLayout = new javax.swing.GroupLayout(ProfilePanel);
         ProfilePanel.setLayout(ProfilePanelLayout);
         ProfilePanelLayout.setHorizontalGroup(
             ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ProfilePanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ScrollPaneHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProfilePanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1155,11 +1212,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(3, 3, 3)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(ScrollPaneHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         parentPanel.add(ProfilePanel, "ProfileCard");
@@ -1282,33 +1341,77 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         LabelPlayer1.setForeground(new java.awt.Color(158, 158, 158));
         LabelPlayer1.setText("Player 1");
 
+        jPanel6.setOpaque(false);
+
+        LabelRecord.setText("Record");
+
+        ButtonRecord.setText("off");
+        ButtonRecord.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ButtonRecordMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ButtonRecordMouseExited(evt);
+            }
+        });
+        ButtonRecord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonRecordActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LabelRecord)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ButtonRecord)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LabelRecord)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonRecord)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(LabelO)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LabelPlayer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(LabelX)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(ButtonForfit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LabelCurrentTurn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelCurrentTurnValue)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(LabelO)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LabelPlayer2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(LabelX)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LabelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ButtonForfit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(LabelCurrentTurn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LabelPlayer1)
                     .addComponent(LabelX))
@@ -1316,7 +1419,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LabelPlayer2)
                     .addComponent(LabelO))
-                .addGap(109, 109, 109)
+                .addGap(82, 82, 82)
                 .addComponent(LabelCurrentTurn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(LabelCurrentTurnValue)
@@ -1330,18 +1433,18 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         GameBoardPanelLayout.setHorizontalGroup(
             GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameBoardPanelLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addComponent(PanelBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE)
+                .addComponent(PanelBoard, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
                 .addGap(70, 70, 70)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         GameBoardPanelLayout.setVerticalGroup(
             GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameBoardPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(GameBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PanelBoard, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                    .addComponent(PanelBoard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1404,13 +1507,13 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         GameResultPanelLayout.setHorizontalGroup(
             GameResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GameResultPanelLayout.createSequentialGroup()
-                .addContainerGap(145, Short.MAX_VALUE)
+                .addContainerGap(161, Short.MAX_VALUE)
                 .addComponent(ButtonPlayAgain)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
                 .addComponent(ButtonMainMenu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                 .addComponent(ButtonQuitResult)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(162, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameResultPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelTmp)
@@ -1588,7 +1691,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonArrowLocalNetworkActionPerformed
 
     private void ButtonProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonProfileActionPerformed
-
+        profile = 1;
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1605,10 +1708,20 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                         LabelLosses.setText("Losses : " + String.valueOf(infoStatusData[4]));
                         LabelDraws.setText("Draws : " + String.valueOf(infoStatusData[5]));
                     }
+                    while (profile == 1) {
+                        int i = 0;
+                        infoStatus = br.readLine();
+                        infoStatusData = infoStatus.split("[.]");
+                        if (infoStatusData[0].equals("profile")) {
+                            tableModel.insertRow(0, new Object[]{infoStatusData[1], infoStatusData[2], infoStatusData[3], infoStatusData[4], infoStatusData[5]});
+                        }
+                        i++;
+                    }
                 } catch (Exception e) {
                     isConnected = 0;
                     System.out.println("Server isn't found!");
                 }
+
             }
         });
         th.start();
@@ -1626,6 +1739,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonArrowMyProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowMyProfileActionPerformed
         cards.show(parentPanel, "MainMenuCard");
+        profile = 0;
     }//GEN-LAST:event_ButtonArrowMyProfileActionPerformed
 
     private void ProfilePanelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_ProfilePanelAncestorAdded
@@ -1836,6 +1950,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private void ButtonP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP3ActionPerformed
         if (ButtonP3.getText().isEmpty()) {
             if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
                 if (currentTurn.equals("X")) {
                     ButtonP3.setForeground(new Color(63, 81, 181));
                 } else {
@@ -2402,6 +2517,163 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         soundtrack.onHoverMusic();
     }//GEN-LAST:event_ButtonLoginMouseEntered
 
+    private void ButtonRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRecordActionPerformed
+        // TODO add your handling code here:
+        if (ButtonRecord.getText().equals("off")) {
+            ps.println("record.1." + gameId + "." + LoggedUsername);
+            ButtonRecord.setText("on");
+            ButtonRecord.setForeground(new Color(198, 40, 40));
+        } else {
+            ps.println("record.0." + gameId + "." + LoggedUsername);
+            ButtonRecord.setText("off");
+            ButtonRecord.setForeground(new Color(97, 97, 97));
+        }
+    }//GEN-LAST:event_ButtonRecordActionPerformed
+
+    private void ButtonRecordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordMouseEntered
+        if (ButtonRecord.getText().equals("off")) {
+            ButtonRecord.setForeground(new Color(117, 117, 117));
+        } else {
+            ButtonRecord.setForeground(new Color(229, 57, 53));
+        }
+        soundtrack.onHoverMusic();
+    }//GEN-LAST:event_ButtonRecordMouseEntered
+
+    private void ButtonRecordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonRecordMouseExited
+        if (ButtonRecord.getText().equals("off")) {
+            ButtonRecord.setForeground(new Color(79, 79, 79));
+        } else {
+            ButtonRecord.setForeground(new Color(198, 40, 40));
+        }
+    }//GEN-LAST:event_ButtonRecordMouseExited
+
+    private void TableHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableHistoryMouseClicked
+        new Thread() {
+            @Override
+            public void run() {
+                JTable target = (JTable) evt.getSource();
+                int row = target.getSelectedRow();
+                int column = target.getSelectedColumn();
+                int isRecorded = Integer.parseInt(tableModel.getValueAt(row, 4).toString());
+                String gameId = tableModel.getValueAt(row, 1).toString();
+                if (isRecorded == 1) {
+                    ps.println("getRecord." + gameId + "." + LoggedUsername);
+                    try {
+                        infoStatus = br.readLine();
+                        infoStatusData = infoStatus.split("[.]");
+                        disableGameBoard();
+                        LabelPlayer1.setText(infoStatusData[1]);
+                        LabelPlayer2.setText(infoStatusData[2]);
+                        LabelCurrentTurnValue.setText("X");
+                        cards.show(parentPanel, "GameBoardCard");
+                        for (int i = 1; i < infoStatusData.length; i++) {
+                            if (infoStatusData[i].equals("X1") || infoStatusData[i].equals("O1")) {
+                                if (infoStatusData[i].equals("X1")) {
+                                    ButtonP1.setText("X");
+                                    ButtonP1.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP1.setText("O");
+                                    ButtonP1.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X2") || infoStatusData[i].equals("O2")) {
+                                if (infoStatusData[i].equals("X2")) {
+                                    ButtonP2.setText("X");
+                                    ButtonP2.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP2.setText("O");
+                                    ButtonP2.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X3") || infoStatusData[i].equals("O3")) {
+                                if (infoStatusData[i].equals("X3")) {
+                                    ButtonP3.setText("X");
+                                    ButtonP3.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP3.setText("O");
+                                    ButtonP3.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X4") || infoStatusData[i].equals("O4")) {
+                                if (infoStatusData[i].equals("X4")) {
+                                    ButtonP4.setText("X");
+                                    ButtonP4.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP4.setText("O");
+                                    ButtonP4.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X5") || infoStatusData[i].equals("O5")) {
+                                if (infoStatusData[i].equals("X5")) {
+                                    ButtonP5.setText("X");
+                                    ButtonP5.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP5.setText("O");
+                                    ButtonP5.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X6") || infoStatusData[i].equals("O6")) {
+                                if (infoStatusData[i].equals("X6")) {
+                                    ButtonP6.setText("X");
+                                    ButtonP6.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP6.setText("O");
+                                    ButtonP6.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X7") || infoStatusData[i].equals("O7")) {
+                                if (infoStatusData[i].equals("X7")) {
+                                    ButtonP7.setText("X");
+                                    ButtonP7.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP7.setText("O");
+                                    ButtonP7.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X8") || infoStatusData[i].equals("O8")) {
+                                if (infoStatusData[i].equals("X8")) {
+                                    ButtonP8.setText("X");
+                                    ButtonP8.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP8.setText("O");
+                                    ButtonP8.setForeground(new Color(198, 40, 40));
+                                }
+
+                            } else if (infoStatusData[i].equals("X9") || infoStatusData[i].equals("O9")) {
+                                if (infoStatusData[i].equals("X9")) {
+                                    ButtonP9.setText("X");
+                                    ButtonP9.setForeground(new Color(63, 81, 181));
+                                } else {
+                                    ButtonP9.setText("O");
+                                    ButtonP9.setForeground(new Color(198, 40, 40));
+                                }
+                            }
+                            Thread.sleep(1000);
+                        }
+                        if (infoStatusData[3].equals(infoStatusData[1])) {
+                            LabelTmp.setText(infoStatusData[1] + " has won the game ^_^");
+                            cards.show(parentPanel, "GameResultCard");
+                        }
+                        else if(infoStatusData[3].equals(infoStatusData[2]))
+                        {
+                            LabelTmp.setText(infoStatusData[2] + " has won the game ^_^");
+                            cards.show(parentPanel, "GameResultCard");
+                        }
+                        else
+                        {
+                            LabelTmp.setText("Game has been ended with a Draw!");
+                            cards.show(parentPanel, "GameResultCard");
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+            }
+
+        }.start();
+    }//GEN-LAST:event_TableHistoryMouseClicked
+
     public void disableGameBoard() {
         ButtonP1.setEnabled(false);
         ButtonP2.setEnabled(false);
@@ -2412,6 +2684,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonP7.setEnabled(false);
         ButtonP8.setEnabled(false);
         ButtonP9.setEnabled(false);
+        ButtonRecord.setEnabled(false);
     }
 
     public void enableGameBoard() {
@@ -2424,6 +2697,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ButtonP7.setEnabled(true);
         ButtonP8.setEnabled(true);
         ButtonP9.setEnabled(true);
+        ButtonRecord.setEnabled(true);
     }
 
     /**
@@ -2443,13 +2717,17 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TicTacToeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TicTacToeFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TicTacToeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TicTacToeFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TicTacToeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TicTacToeFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TicTacToeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TicTacToeFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -2488,6 +2766,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JButton ButtonProfile;
     private javax.swing.JButton ButtonQuit;
     private javax.swing.JButton ButtonQuitResult;
+    private javax.swing.JButton ButtonRecord;
     private javax.swing.JButton ButtonSamePC;
     public static javax.swing.JButton ButtonSearch;
     private javax.swing.JButton ButtonSignup;
@@ -2510,6 +2789,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel LabelPassword;
     public static javax.swing.JLabel LabelPlayer1;
     public static javax.swing.JLabel LabelPlayer2;
+    private javax.swing.JLabel LabelRecord;
     public static javax.swing.JLabel LabelTmp;
     private javax.swing.JLabel LabelTotalGames;
     private javax.swing.JLabel LabelUsername;
@@ -2523,7 +2803,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PanelBoard;
     private javax.swing.JPasswordField PasswordFieldPassword;
     private javax.swing.JPanel ProfilePanel;
-    private javax.swing.JScrollPane ScrollPaneHistoryTable;
     private javax.swing.JTable TableHistory;
     private javax.swing.JTextField TextFieldUsername;
     private javax.swing.JPanel TwoPlayersPanel;
@@ -2535,9 +2814,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JPanel parentPanel;
     // End of variables declaration//GEN-END:variables
 }
