@@ -14,6 +14,53 @@ public class GameLogic {
     int m2 = m.nextInt(9);
     public int counter = 0;
 
+    public void cpuTurn() {
+        fillArray();
+        Random m = new Random();
+        int m1 = m.nextInt(3);
+        int m2 = m.nextInt(3);
+        if (gameBoard[m1][m2].equals("")) {
+
+            gameBoard[m1][m2] = "O";
+            if (gameBoard[m1][m2].equals(gameBoard[0][0])) {
+                TicTacToeFrame.ButtonP1.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[0][1])) {
+                TicTacToeFrame.ButtonP2.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[0][2])) {
+                TicTacToeFrame.ButtonP3.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[1][0])) {
+                TicTacToeFrame.ButtonP4.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[1][1])) {
+                TicTacToeFrame.ButtonP5.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[1][2])) {
+                TicTacToeFrame.ButtonP6.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[2][0])) {
+                TicTacToeFrame.ButtonP7.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[2][1])) {
+                TicTacToeFrame.ButtonP8.setText("O");
+
+            }  if (gameBoard[m1][m2].equals(gameBoard[2][2])) {
+                TicTacToeFrame.ButtonP9.setText("O");
+
+            }
+            playerTurn = "X";
+            counter++;
+
+            System.out.println(counter);
+        } else {
+            cpuTurn();
+        }
+        fillArray();
+
+    }
+
     public String checkPlayerTurn() {
         if (playerTurn.equals("X")) {
             playerTurn = "O";
@@ -30,12 +77,15 @@ public class GameLogic {
 
     public void playerXwins() {
         TicTacToeFrame.cards.show(TicTacToeFrame.parentPanel, "GameResultCard");
+        TicTacToeFrame.getVideo("src/gui/resources/winnervideo.mp4");
         TicTacToeFrame.LabelTmp.setText("Winner is Player X!");
         clearBoard();
     }
 
     public void playerOwins() {
         TicTacToeFrame.cards.show(TicTacToeFrame.parentPanel, "GameResultCard");
+        TicTacToeFrame.getVideo("src/gui/resources/loservideo.mp4");
+
         TicTacToeFrame.LabelTmp.setText("Winner is Player O!");
         clearBoard();
     }
@@ -62,119 +112,119 @@ public class GameLogic {
         fillArray();
         counter++;
         if (gameBoard[0][0].equals("X") && gameBoard[0][0].equals(gameBoard[0][1]) && gameBoard[0][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[1][0].equals("X") && gameBoard[1][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[1][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[2][0].equals("X") && gameBoard[2][0].equals(gameBoard[2][1]) && gameBoard[2][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][0].equals("X") && gameBoard[0][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[2][0].equals("X") && gameBoard[2][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][0].equals("X") && gameBoard[0][0].equals(gameBoard[1][0]) && gameBoard[0][0].equals(gameBoard[2][0])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][1].equals("X") && gameBoard[0][1].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][1])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][2].equals("X") && gameBoard[0][2].equals(gameBoard[1][2]) && gameBoard[1][2].equals(gameBoard[2][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerXwins();
                 return "X";
             } else if (mode.equals("network")) {
                 return "X";
             }
         } else if (gameBoard[0][0].equals("O") && gameBoard[0][0].equals(gameBoard[0][1]) && gameBoard[0][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[1][0].equals("O") && gameBoard[1][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[1][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[2][0].equals("O") && gameBoard[2][0].equals(gameBoard[2][1]) && gameBoard[2][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][0].equals("O") && gameBoard[0][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[2][0].equals("O") && gameBoard[2][0].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[0][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][0].equals("O") && gameBoard[0][0].equals(gameBoard[1][0]) && gameBoard[0][0].equals(gameBoard[2][0])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][1].equals("O") && gameBoard[0][1].equals(gameBoard[1][1]) && gameBoard[1][1].equals(gameBoard[2][1])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (gameBoard[0][2].equals("O") && gameBoard[0][2].equals(gameBoard[1][2]) && gameBoard[1][2].equals(gameBoard[2][2])) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 playerOwins();
                 return "O";
             } else if (mode.equals("network")) {
                 return "O";
             }
         } else if (counter >= 9) {
-            if (mode.equals("samepc")) {
+            if (mode.equals("samepc") || mode.equals("single")) {
                 gameDraw();
                 return "draw";
             } else if (mode.equals("network")) {
