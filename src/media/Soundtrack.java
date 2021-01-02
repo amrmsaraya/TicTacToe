@@ -15,49 +15,27 @@ import javax.sound.sampled.Clip;
  *
  * @author amr
  */
-
 public class Soundtrack {
 
     public void backgroundMusic() {
-        Thread th = new Thread() {
-
-            @Override
-            public void run() {
-                AudioInputStream audioInputStream = null;
-                while (true) {
-                    try {
-                        String soundName = "src/gui/resources/bgMusic.wav";
-                        audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-                        Clip clip = AudioSystem.getClip();
-                        clip.open(audioInputStream);
-                        clip.start();
-                        sleep(27000);
-                    } catch (Exception ex) {
-
-                    }
-                }
-            }
-        };
-        th.start();
+        try {
+            String soundName = "src/gui/resources/bgMusic.wav";
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception ex) {
+        }
     }
 
     public void onHoverMusic() {
-        Thread th = new Thread() {
-            @Override
-            public void run() {
-                AudioInputStream audioInputStream = null;
-                Clip clip = null;
-                try {
-
-                    String soundName = "src/gui/resources/onHover.wav";
-                    audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-                    clip = AudioSystem.getClip();
-                    clip.open(audioInputStream);
-                    clip.start();
-                } catch (Exception ex) {
-                }
-            }
-        };
-        th.start();
+        try {
+            String soundName = "src/gui/resources/onHover.wav";
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+        }
     }
 }

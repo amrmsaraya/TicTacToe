@@ -9,17 +9,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 import gamelogic.GameLogic;
-import static java.lang.Thread.sleep;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.border.Border;
@@ -32,13 +22,23 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     public static CardLayout cards;
     DefaultTableModel model;
 
+    String gameMode;
+    String myMark;
+    int moveNumber;
+    String whosTurn;
+    String opponent;
+    int playAgain;
+    int isGameCreated;
+    int isGameJoined;
+    int isConnected;
+    int isGameEnded;
     Socket s;
     InputStreamReader isr;
     BufferedReader br;
     PrintStream ps;
-    int isLoginPressed;
     String LoggedUsername;
     String gameId;
+    int isLoginPressed;
     DefaultListModel listModel;
 
     String currentTurn;
@@ -53,6 +53,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     float FONT_SIZE_32;
 
     Soundtrack soundtrack;
+    Thread th;
 
     public TicTacToeFrame() {
         setUndecorated(true);
@@ -64,6 +65,36 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
         initComponents();
 
+        isConnected = 0;
+        th = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    if (isConnected == 0) {
+                        try {
+                            s = new Socket("127.0.0.1", 6610);
+                            isr = new InputStreamReader(s.getInputStream());
+                            br = new BufferedReader(isr);
+                            ps = new PrintStream(s.getOutputStream());
+                            isConnected = 1;
+                            Thread.sleep(2000);
+                        } catch (Exception e) {
+                            isConnected = 0;
+                        }
+                    }
+                }
+            }
+        });
+        th.start();
+
+        gameMode = "single";
+        myMark = "X";
+        whosTurn = "X";
+        opponent = "";
+        playAgain = 0;
+        moveNumber = 0;
+        isGameCreated = 0;
+        isGameJoined = 0;
+        isGameEnded = 0;
         soundtrack = new Soundtrack();
         soundtrack.backgroundMusic();
 
@@ -349,14 +380,16 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         ListAvailableGames = new javax.swing.JList<>();
         ProfilePanel = new javax.swing.JPanel();
         ButtonArrowMyProfile = new javax.swing.JButton();
-        LabelWelcome = new javax.swing.JLabel();
-        LabelTotalGames = new javax.swing.JLabel();
-        LabelWins = new javax.swing.JLabel();
-        LabelDraws = new javax.swing.JLabel();
-        LabelLosses = new javax.swing.JLabel();
-        LabelHistory = new javax.swing.JLabel();
         ScrollPaneHistoryTable = new javax.swing.JScrollPane();
         TableHistory = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        LabelWins = new javax.swing.JLabel();
+        LabelDraws = new javax.swing.JLabel();
+        LabelWelcome = new javax.swing.JLabel();
+        LabelTotalGames = new javax.swing.JLabel();
+        LabelLosses = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        LabelHistory = new javax.swing.JLabel();
         GameBoardPanel = new javax.swing.JPanel();
         PanelBoard = new javax.swing.JPanel();
         ButtonP1 = new javax.swing.JButton();
@@ -972,10 +1005,10 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         parentPanel.add(JoinGamePanel, "JoinGameCard");
 
         ProfilePanel.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 ProfilePanelAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -997,24 +1030,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 ButtonArrowMyProfileActionPerformed(evt);
             }
         });
-
-        LabelWelcome.setForeground(new java.awt.Color(158, 158, 158));
-        LabelWelcome.setText("Welcome Username!");
-
-        LabelTotalGames.setForeground(new java.awt.Color(158, 158, 158));
-        LabelTotalGames.setText("Total Games : 10");
-
-        LabelWins.setForeground(new java.awt.Color(158, 158, 158));
-        LabelWins.setText("Wins : 5");
-
-        LabelDraws.setForeground(new java.awt.Color(158, 158, 158));
-        LabelDraws.setText("Draws : 2");
-
-        LabelLosses.setForeground(new java.awt.Color(158, 158, 158));
-        LabelLosses.setText("Losses : 3");
-
-        LabelHistory.setForeground(new java.awt.Color(158, 158, 158));
-        LabelHistory.setText("History");
 
         TableHistory.setBackground(new java.awt.Color(33, 33, 33));
         TableHistory.setForeground(new java.awt.Color(158, 158, 158));
@@ -1038,6 +1053,88 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         TableHistory.getTableHeader().setReorderingAllowed(false);
         ScrollPaneHistoryTable.setViewportView(TableHistory);
 
+        jPanel7.setOpaque(false);
+
+        LabelWins.setForeground(new java.awt.Color(158, 158, 158));
+        LabelWins.setText("Wins : 5");
+
+        LabelDraws.setForeground(new java.awt.Color(158, 158, 158));
+        LabelDraws.setText("Draws : 2");
+
+        LabelWelcome.setForeground(new java.awt.Color(158, 158, 158));
+        LabelWelcome.setText("Welcome Username!");
+
+        LabelTotalGames.setForeground(new java.awt.Color(158, 158, 158));
+        LabelTotalGames.setText("Total Games : 10");
+
+        LabelLosses.setForeground(new java.awt.Color(158, 158, 158));
+        LabelLosses.setText("Losses : 3");
+
+        jPanel8.setOpaque(false);
+
+        LabelHistory.setForeground(new java.awt.Color(158, 158, 158));
+        LabelHistory.setText("History");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LabelHistory)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LabelHistory)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LabelWelcome)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(LabelTotalGames)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(LabelWins)
+                        .addGap(130, 130, 130)
+                        .addComponent(LabelDraws)
+                        .addGap(110, 110, 110)
+                        .addComponent(LabelLosses)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LabelWelcome)
+                .addGap(39, 39, 39)
+                .addComponent(LabelTotalGames)
+                .addGap(60, 60, 60)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LabelWins)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LabelLosses)
+                        .addComponent(LabelDraws)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout ProfilePanelLayout = new javax.swing.GroupLayout(ProfilePanel);
         ProfilePanel.setLayout(ProfilePanelLayout);
         ProfilePanelLayout.setHorizontalGroup(
@@ -1047,38 +1144,22 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                     .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ProfilePanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ProfilePanelLayout.createSequentialGroup()
-                                .addComponent(LabelWins)
-                                .addGap(130, 130, 130)
-                                .addComponent(LabelDraws)
-                                .addGap(110, 110, 110)
-                                .addComponent(LabelLosses))
-                            .addComponent(ScrollPaneHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelWelcome)
-                            .addComponent(LabelTotalGames)
-                            .addComponent(LabelHistory))))
+                        .addComponent(ScrollPaneHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProfilePanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ProfilePanelLayout.setVerticalGroup(
             ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProfilePanelLayout.createSequentialGroup()
                 .addComponent(ButtonArrowMyProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(LabelWelcome)
-                .addGap(65, 65, 65)
-                .addComponent(LabelTotalGames)
-                .addGap(34, 34, 34)
-                .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelWins)
-                    .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(LabelLosses)
-                        .addComponent(LabelDraws)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(LabelHistory)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(ScrollPaneHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
 
         parentPanel.add(ProfilePanel, "ProfileCard");
@@ -1433,6 +1514,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonArrowGameModeMouseExited
 
     private void ButtonLocalNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLocalNetworkActionPerformed
+        gameMode = "network";
         cards.show(parentPanel, "LocalNetworkCard");
     }//GEN-LAST:event_ButtonLocalNetworkActionPerformed
 
@@ -1513,10 +1595,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                 try {
                     String infoStatus = "";
                     String[] infoStatusData;
-                    s = new Socket("127.0.0.1", 6610);
-                    isr = new InputStreamReader(s.getInputStream());
-                    br = new BufferedReader(isr);
-                    ps = new PrintStream(s.getOutputStream());
                     ps.println("profile." + LoggedUsername);
                     infoStatus = br.readLine();
                     infoStatusData = infoStatus.split("[.]");
@@ -1527,8 +1605,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                         LabelLosses.setText("Losses : " + String.valueOf(infoStatusData[4]));
                         LabelDraws.setText("Draws : " + String.valueOf(infoStatusData[5]));
                     }
-                    ps.println("close");
                 } catch (Exception e) {
+                    isConnected = 0;
                     System.out.println("Server isn't found!");
                 }
             }
@@ -1555,40 +1633,71 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP2ActionPerformed
         if (ButtonP2.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP2.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP2.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP2.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP2.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP2.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".2");
+                        System.out.println("MovePlayed");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP2.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP2ActionPerformed
 
     private void ButtonP4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP4ActionPerformed
         if (ButtonP4.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP4.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP4.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP4.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP4.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP4.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".4");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP4.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP4ActionPerformed
 
     private void ButtonP6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP6ActionPerformed
         if (ButtonP6.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP6.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP6.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP6.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP6.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP6.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".6");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP6.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP6ActionPerformed
 
@@ -1603,7 +1712,14 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonForfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonForfitActionPerformed
         gameLogic.clearBoard();
-        cards.show(parentPanel, "GameResultCard");
+        if (gameMode.equals("network")) {
+            if (myMark.equals("X")) {
+                ps.println("winner." + gameId + ".O");
+            } else {
+                ps.println("winner." + gameId + ".X");
+            }
+
+        }
     }//GEN-LAST:event_ButtonForfitActionPerformed
 
     private void ButtonArrowJoinGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonArrowJoinGameActionPerformed
@@ -1622,7 +1738,18 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonPlayAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonPlayAgainActionPerformed
         // TODO add your handling code here:
-        cards.show(parentPanel, "GameBoardCard");
+        gameLogic.clearBoard();
+        whosTurn = "X";
+
+        if (isGameJoined == 1) {
+            isGameJoined = 0;
+            isGameEnded = 0;
+            ButtonJoinGame.doClick();
+        } else if (isGameCreated == 1) {
+            isGameCreated = 0;
+            isGameEnded = 0;
+            ButtonCreateGame.doClick();
+        }
     }//GEN-LAST:event_ButtonPlayAgainActionPerformed
 
     private void ButtonMainMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMainMenuMouseEntered
@@ -1635,6 +1762,11 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonMainMenuMouseExited
 
     private void ButtonMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMainMenuActionPerformed
+        gameLogic.clearBoard();
+        whosTurn = "X";
+        isGameCreated = 0;
+        isGameJoined = 0;
+        gameId = "";
         cards.show(parentPanel, "MainMenuCard");
     }//GEN-LAST:event_ButtonMainMenuActionPerformed
 
@@ -1653,44 +1785,73 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonP7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP7ActionPerformed
         if (ButtonP7.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP7.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP7.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP7.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP7.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP7.setText(currentTurn);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".7");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP7.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP7ActionPerformed
 
     private void ButtonP5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP5ActionPerformed
         if (ButtonP5.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP5.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP5.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP5.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP5.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP5.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".5");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP5.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP5ActionPerformed
 
     private void ButtonOnePlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOnePlayerActionPerformed
+        gameMode = "single";
         cards.show(parentPanel, "GameBoardCard");
     }//GEN-LAST:event_ButtonOnePlayerActionPerformed
 
     private void ButtonP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP3ActionPerformed
         if (ButtonP3.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP3.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP3.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                if (currentTurn.equals("X")) {
+                    ButtonP3.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP3.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP3.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".3");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP3.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP3ActionPerformed
 
@@ -1698,39 +1859,132 @@ public class TicTacToeFrame extends javax.swing.JFrame {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    String infoStatus = "";
-                    String[] infoStatusData;
-                    s = new Socket("127.0.0.1", 6610);
-                    isr = new InputStreamReader(s.getInputStream());
-                    br = new BufferedReader(isr);
-                    ps = new PrintStream(s.getOutputStream());
-                    ps.println("createGame." + LoggedUsername);
-                    infoStatus = br.readLine();
-                    infoStatusData = infoStatus.split("[.]");
-                    if (infoStatusData[0].equals("createGame") && infoStatusData[2].equalsIgnoreCase(LoggedUsername)) {
-                        gameId = infoStatusData[1];
-                        LabelPlayer1.setText(LoggedUsername);
-                        LabelPlayer2.setText("Waiting...");
-                        disableGameBoard();
-                        cards.show(parentPanel, "GameBoardCard");
-                    }
-                    while (true) {
-                        infoStatus = br.readLine();
-                        System.out.println("!!");
-                        infoStatusData = infoStatus.split("[.]");
-                        if (infoStatusData[0].equals("startGame") && infoStatusData[1].equals(gameId)) {
-                            System.out.println("???");
-                            LabelPlayer2.setText(infoStatusData[2]);
-                            enableGameBoard();
-                            cards.show(parentPanel, "GameBoardCard");
-                            break;
+                while (isGameEnded == 0) {
+                    try {
+                        String infoStatus = "";
+                        String[] infoStatusData;
+                        if (isGameCreated == 0) {
+                            ps.println("createGame." + LoggedUsername);
+                            infoStatus = br.readLine();
+                            infoStatusData = infoStatus.split("[.]");
+                            if (infoStatusData[0].equals("createGame") && infoStatusData[2].equalsIgnoreCase(LoggedUsername)) {
+                                gameId = infoStatusData[1];
+                                LabelPlayer1.setText(LoggedUsername);
+                                LabelPlayer2.setText("Waiting...");
+                                disableGameBoard();
+                                cards.show(parentPanel, "GameBoardCard");
+                                myMark = "X";
+                                isGameCreated = 1;
+                            }
+                        } else {
+                            infoStatus = br.readLine();
+                            infoStatusData = infoStatus.split("[.]");
+                            if (infoStatusData[0].equals("startGame") && infoStatusData[1].equals(gameId)) {
+                                LabelPlayer2.setText(infoStatusData[2]);
+                                opponent = infoStatusData[2];
+                                enableGameBoard();
+                                cards.show(parentPanel, "GameBoardCard");
+                            } else if (infoStatusData[0].equals(gameId) && infoStatusData[1].equals("whosturn")) {
+                                System.out.println("WhosTurn = " + infoStatusData[2]);
+                                whosTurn = infoStatusData[2];
+                                if (whosTurn.equals("O")) {
+                                    LabelCurrentTurnValue.setText("O");
+                                    LabelCurrentTurnValue.setForeground(new Color(198, 40, 40));
+                                } else {
+                                    LabelCurrentTurnValue.setText("X");
+                                    LabelCurrentTurnValue.setForeground(new Color(63, 81, 181));
+                                }
+                            } else if (infoStatusData[0].equals("moveplayed") && infoStatusData[1].equals(gameId)) {
+                                String mark = infoStatusData[2];
+                                String place = infoStatusData[3];
+                                if (place.equals("1")) {
+                                    ButtonP1.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP1.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP1.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("2")) {
+                                    ButtonP2.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP2.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP2.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("3")) {
+                                    ButtonP3.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP3.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP3.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("4")) {
+                                    ButtonP4.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP4.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP4.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("5")) {
+                                    ButtonP5.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP5.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP5.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("6")) {
+                                    ButtonP6.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP6.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP6.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("7")) {
+                                    ButtonP7.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP7.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP7.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("8")) {
+                                    ButtonP8.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP8.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP8.setForeground(new Color(198, 40, 40));
+                                    }
+                                } else if (place.equals("9")) {
+                                    ButtonP9.setText(mark);
+                                    if (mark.equals("X")) {
+                                        ButtonP9.setForeground(new Color(63, 81, 181));
+                                    } else {
+                                        ButtonP9.setForeground(new Color(198, 40, 40));
+                                    }
+                                }
+                                // Check win
+                                String whoWins = gameLogic.checkWin("network");
+                                if (!whoWins.equals("none")) {
+                                    System.out.println(whoWins);
+                                    ps.println("winner." + gameId + "." + whoWins);
+                                }
+                                // Show Result Screen
+                            } else if (infoStatusData[0].equals("winner") && infoStatusData[1].equals(gameId)) {
+                                cards.show(parentPanel, "GameResultCard");
+                                if (infoStatusData[2].equals(LoggedUsername)) {
+                                    LabelTmp.setText("Congratulations " + LoggedUsername + ", You Won ^_^");
+                                } else if (infoStatusData[2].equals(opponent)) {
+                                    LabelTmp.setText("Sorry " + LoggedUsername + ", You Lost :(");
+                                } else if (infoStatusData[2].equals("draw")) {
+                                    LabelTmp.setText("Game ended with a Draw !");
+                                }
+                                isGameEnded = 1;
+                            }
                         }
+
+                    } catch (Exception e) {
+                        isConnected = 0;
+                        System.out.println("Server isn't found!");
                     }
-                    System.out.println("Closed");
-                    ps.println("close");
-                } catch (Exception e) {
-                    System.out.println("Server isn't found!");
                 }
             }
         });
@@ -1739,6 +1993,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonSamePCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSamePCActionPerformed
         // TODO add your handling code here:
+        gameMode = "samepc";
         cards.show(parentPanel, "GameBoardCard");
     }//GEN-LAST:event_ButtonSamePCActionPerformed
 
@@ -1783,25 +2038,120 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             Thread th = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        String infoStatus = "";
-                        String[] infoStatusData;
-                        s = new Socket("127.0.0.1", 6610);
-                        isr = new InputStreamReader(s.getInputStream());
-                        br = new BufferedReader(isr);
-                        ps = new PrintStream(s.getOutputStream());
-                        ps.println("join." + LoggedUsername + "." + ListAvailableGames.getSelectedValue());
-                        infoStatus = br.readLine();
-                        infoStatusData = infoStatus.split("[.]");
-                        if (infoStatusData[0].equals("join") && infoStatusData[2].equals(LoggedUsername)) {
-                            LabelPlayer1.setText(infoStatusData[3]);
-                            LabelPlayer2.setText(infoStatusData[2]);
-                            gameId = infoStatusData[1];
-                            cards.show(parentPanel, "GameBoardCard");
+                    while (isGameEnded == 0) {
+                        try {
+                            String infoStatus = "";
+                            String[] infoStatusData;
+                            if (isGameJoined == 0) {
+                                ps.println("join." + LoggedUsername + "." + ListAvailableGames.getSelectedValue());
+                                infoStatus = br.readLine();
+                                infoStatusData = infoStatus.split("[.]");
+                                if (infoStatusData[0].equals("join") && infoStatusData[2].equals(LoggedUsername)) {
+                                    LabelPlayer1.setText(infoStatusData[3]);
+                                    LabelPlayer2.setText(infoStatusData[2]);
+                                    gameId = infoStatusData[1];
+                                    cards.show(parentPanel, "GameBoardCard");
+                                    myMark = "O";
+                                    isGameJoined = 1;
+                                    opponent = infoStatusData[3];
+                                }
+                            } else {
+                                infoStatus = br.readLine();
+                                infoStatusData = infoStatus.split("[.]");
+                                if (infoStatusData[0].equals(gameId) && infoStatusData[1].equals("whosturn")) {
+                                    whosTurn = infoStatusData[2];
+                                    if (whosTurn.equals("O")) {
+                                        LabelCurrentTurnValue.setText("O");
+                                        LabelCurrentTurnValue.setForeground(new Color(198, 40, 40));
+                                    } else {
+                                        LabelCurrentTurnValue.setText("X");
+                                        LabelCurrentTurnValue.setForeground(new Color(63, 81, 181));
+                                    }
+                                } else if (infoStatusData[0].equals("moveplayed") && infoStatusData[1].equals(gameId)) {
+                                    String mark = infoStatusData[2];
+                                    String place = infoStatusData[3];
+                                    if (place.equals("1")) {
+                                        ButtonP1.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP1.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP1.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("2")) {
+                                        ButtonP2.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP2.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP2.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("3")) {
+                                        ButtonP3.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP3.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP3.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("4")) {
+                                        ButtonP4.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP4.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP4.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("5")) {
+                                        ButtonP5.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP5.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP5.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("6")) {
+                                        ButtonP6.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP6.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP6.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("7")) {
+                                        ButtonP7.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP7.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP7.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("8")) {
+                                        ButtonP8.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP8.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP8.setForeground(new Color(198, 40, 40));
+                                        }
+                                    } else if (place.equals("9")) {
+                                        ButtonP9.setText(mark);
+                                        if (mark.equals("X")) {
+                                            ButtonP9.setForeground(new Color(63, 81, 181));
+                                        } else {
+                                            ButtonP9.setForeground(new Color(198, 40, 40));
+                                        }
+                                    }
+                                    // Show Result
+                                } else if (infoStatusData[0].equals("winner") && infoStatusData[1].equals(gameId)) {
+                                    cards.show(parentPanel, "GameResultCard");
+                                    if (infoStatusData[2].equals(LoggedUsername)) {
+                                        LabelTmp.setText("Congratulations " + LoggedUsername + ", You Won ^_^");
+                                    } else if (infoStatusData[2].equals(opponent)) {
+                                        LabelTmp.setText("Sorry " + LoggedUsername + ", You Lost :(");
+                                    } else if (infoStatusData[2].equals("draw")) {
+                                        LabelTmp.setText("Game ended with a Draw !");
+                                    }
+                                    isGameEnded = 1;
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            isConnected = 0;
+                            System.out.println("Server isn't found!");
                         }
-                        ps.println("close");
-                    } catch (Exception e) {
-                        System.out.println("Server isn't found!");
                     }
                 }
             });
@@ -1821,24 +2171,31 @@ public class TicTacToeFrame extends javax.swing.JFrame {
             public void run() {
                 try {
                     String infoStatus = "";
-                    String[] infoStatusData;
-                    s = new Socket("127.0.0.1", 6610);
-                    isr = new InputStreamReader(s.getInputStream());
-                    br = new BufferedReader(isr);
-                    ps = new PrintStream(s.getOutputStream());
-                    ps.println("getGames.");
+                    String[] infoStatusData = null;
+                    ps.println("getGames.get");
                     infoStatus = br.readLine();
-                    infoStatusData = infoStatus.split("[.]");
-
-                    if (infoStatusData[0].equals("getGames")) {
-                        for (int i = 1; i < infoStatusData.length; i++) {
-                            listModel.remove(i - 1);
-                            listModel.add(i - 1, infoStatusData[i]);
+                    if (infoStatus.indexOf(".") != infoStatus.length() - 1) {
+                        infoStatusData = infoStatus.split("[.]");
+                        System.out.println(infoStatus);
+                        if (infoStatusData[0].equals("getGames")) {
+                            if (infoStatusData.length > 1) {
+                                for (int i = 0; i < infoStatusData.length; i++) {
+                                    if (i > 0) {
+                                        if (i > 5) {
+                                            listModel.add(i - 1, infoStatusData[i]);
+                                        } else {
+                                            listModel.set(i - 1, infoStatusData[i]);
+                                        }
+                                    }
+                                }
+                            }
+                            ListAvailableGames.setModel(listModel);
                         }
-                        ListAvailableGames.setModel(listModel);
                     }
-                    ps.println("close");
+
                 } catch (Exception e) {
+                    isConnected = 0;
+                    e.printStackTrace();
                     System.out.println("Server isn't found!");
                 }
             }
@@ -1848,40 +2205,70 @@ public class TicTacToeFrame extends javax.swing.JFrame {
 
     private void ButtonP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP1ActionPerformed
         if (ButtonP1.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP1.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP1.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP1.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP1.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP1.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".1");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP1.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP1ActionPerformed
 
     private void ButtonP8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP8ActionPerformed
         if (ButtonP8.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP8.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP8.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP8.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP8.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP8.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".8");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP8.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP8ActionPerformed
 
     private void ButtonP9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonP9ActionPerformed
         if (ButtonP9.getText().isEmpty()) {
-            currentTurn = gameLogic.checkPlayerTurn();
-            if (currentTurn.equals("X")) {
-                ButtonP9.setForeground(new Color(63, 81, 181));
-            } else {
-                ButtonP9.setForeground(new Color(198, 40, 40));
+            if (gameMode.equals("samepc")) {
+                currentTurn = gameLogic.checkPlayerTurn();
+                if (currentTurn.equals("X")) {
+                    ButtonP9.setForeground(new Color(63, 81, 181));
+                } else {
+                    ButtonP9.setForeground(new Color(198, 40, 40));
+                }
+                ButtonP9.setText(currentTurn);
+                gameLogic.checkWin(gameMode);
+            } else if (gameMode.equals("network")) {
+                try {
+                    if (whosTurn.equals(myMark)) {
+                        ps.println("gaming." + gameId + ".moveplayed." + myMark + ".9");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            ButtonP9.setText(currentTurn);
-            gameLogic.checkWin();
         }
     }//GEN-LAST:event_ButtonP9ActionPerformed
 
@@ -1900,10 +2287,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                         try {
                             String infoStatus = "";
                             String[] infoStatusData;
-                            s = new Socket("127.0.0.1", 6610);
-                            isr = new InputStreamReader(s.getInputStream());
-                            br = new BufferedReader(isr);
-                            ps = new PrintStream(s.getOutputStream());
                             ps.println("signup." + username + "." + password);
                             infoStatus = br.readLine();
                             infoStatusData = infoStatus.split("[.]");
@@ -1916,9 +2299,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                                 TextFieldUsername.setBorder(border);
                             }
                             isLoginPressed = 0;
-                            ps.println("close");
-                            s.close();
                         } catch (Exception e) {
+                            isConnected = 0;
                             System.out.println("Server isn't found!");
                             LabelLoginSatus.setText("* Can't connect to server");
                             isLoginPressed = 0;
@@ -1970,10 +2352,6 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                         try {
                             String infoStatus = "";
                             String[] infoStatusData;
-                            s = new Socket("127.0.0.1", 6610);
-                            isr = new InputStreamReader(s.getInputStream());
-                            br = new BufferedReader(isr);
-                            ps = new PrintStream(s.getOutputStream());
                             ps.println("login." + username + "." + password);
                             infoStatus = br.readLine();
                             infoStatusData = infoStatus.split("[.]");
@@ -1988,6 +2366,7 @@ public class TicTacToeFrame extends javax.swing.JFrame {
                             }
                             isLoginPressed = 0;
                         } catch (Exception e) {
+                            isConnected = 0;
                             System.out.println("Server isn't found!");
                             LabelLoginSatus.setText("* Can't connect to server");
                             isLoginPressed = 0;
@@ -2129,8 +2508,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel LabelLosses;
     private javax.swing.JLabel LabelO;
     private javax.swing.JLabel LabelPassword;
-    private javax.swing.JLabel LabelPlayer1;
-    private javax.swing.JLabel LabelPlayer2;
+    public static javax.swing.JLabel LabelPlayer1;
+    public static javax.swing.JLabel LabelPlayer2;
     public static javax.swing.JLabel LabelTmp;
     private javax.swing.JLabel LabelTotalGames;
     private javax.swing.JLabel LabelUsername;
@@ -2156,6 +2535,8 @@ public class TicTacToeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JPanel parentPanel;
     // End of variables declaration//GEN-END:variables
